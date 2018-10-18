@@ -8,10 +8,8 @@ const api  = new API();
 
 //my code============================================================
 const large_feed = document.getElementById('large-feed');
-let user_name ='';
-let password = '';
-
-
+let user_name = '';
+let  password ='';
 fetch('http://localhost:8080/data/users.json')
     .then(response => response.json())
     .then(r => r) //need to do another then since hte .json will retunr a promise
@@ -20,31 +18,6 @@ fetch('http://localhost:8080/data/users.json')
 
 //render the login page
 render_login();
-
-
-//check user name and password
-console.log(user_name);
-
-
-
-
-
-
-//my code============================================================
-
-// we can use this single api request multiple times
-/*
-const feed = api.getFeed();
-feed
-.then(posts => {
-    posts.reduce((parent, post) => {
-        parent.appendChild(helper.createPostTile(post));
-        return parent;
-    }, document.getElementById('large-feed'))
-});
-*/
-
-
 
 // Potential example to upload an image
 const input = document.querySelector('input[type="file"]');
@@ -113,8 +86,6 @@ function render_login() {
     body_form.appendChild(form)
     large_feed.appendChild(body_form);
 
-
-
     //user click on sign in
     login_btn.addEventListener('click',(e) => {
         e.preventDefault();
@@ -127,13 +98,15 @@ function render_login() {
 
     //user click on sign up
     sign_btn.addEventListener('click',(e) => {
-        e.preventDefault();
+         e.preventDefault();
+        //render the state of the element of the orignal form
         
         //will add sign up form filed to the log in form
         //usr name ,password, emial, name
         //remove log button and change sign up to submit
-        login_btn.remove();
         sign_btn.remove();
+        login_btn.remove();
+
         input_user.required=true;
         input_password.required =true;
 
@@ -165,13 +138,11 @@ function render_login() {
         form_div4.appendChild(input_email);
         form.insertBefore(form_div4,form.children[4]);
 
-        body_form.appendChild(form)
-        large_feed.appendChild(body_form);
-
         //add event listener for sumbit button
         submit_btn.addEventListener('click',(e) => {
             e.preventDefault();
-           
+            
+            console.log(input_user.value);
             //payload for sign up
             const payload = {
                   "username": input_user.value,
@@ -201,7 +172,9 @@ function render_login() {
               })
               .catch(err => console.log(err));
         })
-    })
+   
+
+    });
 
 }
 
@@ -224,7 +197,7 @@ function validate_user (name, pass) {
     }).then(response => response.json())
       .then((r) => {
             //check if user login valid
-            console.log(r.token);
+            //console.log(r.token);
             if(r.token) {   //login success save token in the local storage and reurn 1
                 window.localStorage.setItem(name,r.token); 
                 render_home();
@@ -253,6 +226,7 @@ function render_home() {
     attach.style.display = 'block';
 
     //show attach feed to large_feed
+    //get user's feed from the data base and render as user's home page
     const feed = api.getFeed();
 
 
