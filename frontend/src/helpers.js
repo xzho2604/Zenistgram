@@ -39,13 +39,22 @@ export function createPostTile(post) {
     const comments = createElement('div',null,)
 
     //add the description section to the end of the image
-     
+    
 
 
     section.appendChild(createElement('h2', post.meta.author, { class: 'post-title' }));
-    section.appendChild(createElement('p', post.meta.description_text, { class: 'container' }));
+    section.appendChild(createElement('p', post.meta.description_text, { style: 'padding:10px 10px;font-size:11pt;'}));
     section.appendChild(createElement('img', null,{ src: '/images/'+post.src, alt: post.meta.description_text, class: 'post-image' }));
 
+    //add two div for comments and likes 
+    const comment_div = createElement('div',null,{style:'width:50%;float:left'})
+    const like_div = createElement('div',null,{style:'width:50%;float:left'})
+
+    comment_div.appendChild(createElement('p', `Comments: ${post.meta.comments.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center' }));
+    like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center' }));
+    section.appendChild(comment_div);
+    section.appendChild(like_div);
+    section.appendChild(document.createElement('HR'));
     return section;
 }
 
