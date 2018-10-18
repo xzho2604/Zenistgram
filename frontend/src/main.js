@@ -80,7 +80,7 @@ function render_login() {
     form_div.style.cssText = 'margin-bottom: 15px';
 
     //input test
-    const input_user = helper.createElement('input',null,{class:'form-con',type:'text',placeholder:'User Name',required:'required'});
+    const input_user = helper.createElement('input',null,{class:'form-con',type:'text',placeholder:'User Name'});
     form_div.appendChild(input_user);
     form.appendChild(form_div);
 
@@ -89,7 +89,7 @@ function render_login() {
     form_div2.style.cssText = 'margin-bottom: 15px';
 
     //input text 
-    const input_password = helper.createElement('input',null,{class:'form-con',type:'password',placeholder:'Password',required:'required'});
+    const input_password = helper.createElement('input',null,{class:'form-con',type:'password',placeholder:'Password'});
     form_div2.appendChild(input_password);
     form.appendChild(form_div2);
 
@@ -122,11 +122,55 @@ function render_login() {
         password = input_password.value;
        
         //check user name and pass word if valid render home else alert
-        validate_user(user_name,password) ? render_home() : alert("Wrong user name or Password!");
+        validate_user(user_name,password) 
     });
 
     //user click on sign up
     sign_btn.addEventListener('click',(e) => {
+        e.preventDefault();
+        
+        //will add sign up form filed to the log in form
+        //usr name ,password, emial, name
+        //remove log button and change sign up to submit
+        login_btn.remove();
+        sign_btn.remove();
+        console.log(input_user);
+        input_user.required=true;
+        input_password.required =true;
+
+        const submit_btn = helper.createElement('button',"Submit",{class:'butt',type:'submit'});
+        sign_div.appendChild(submit_btn);
+        form.appendChild(sign_div);
+        
+        //reset the form
+        form.reset()
+
+        //change form title to Sign up
+        log_head.innerText = "Sign up";
+
+        //form group div ---------for name
+        const form_div3 = helper.createElement('div');
+        form_div3.style.cssText = 'margin-bottom: 15px';
+
+        //name filled 
+        const input_name = helper.createElement('input',null,{class:'form-con',type:'text',placeholder:'Name',required:'required'});
+        form_div3.appendChild(input_name);
+        form.insertBefore(form_div3,form.children[3]);
+
+        //form group div ---------for email
+        const form_div4 = helper.createElement('div');
+        form_div4.style.cssText = 'margin-bottom: 15px';
+
+        //name filled 
+        const input_email = helper.createElement('input',null,{class:'form-con',type:'text',placeholder:'Email',required:'required'});
+        form_div4.appendChild(input_email);
+        form.insertBefore(form_div4,form.children[4]);
+
+        body_form.appendChild(form)
+        large_feed.appendChild(body_form);
+
+
+
         return;
     });
 
@@ -135,16 +179,39 @@ function render_login() {
 
 //will take in user name and password return 1 if valid 0 if not
 function validate_user (name, pass) {
-    //clear the text of input
+    //check user name and password against backend
+    const payload = {
+        'username': name, 
+        'password': pass
+    }
 
-    const form = document.querySelector('form');
-    form.reset();
-    return 1;
+    fetch('http://127.0.0.1:5000/auth/login', {
+        method:'POST',
+        body:JSON.stringify(payload),
+        headers:{
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+      .then((r) => {
+            //check if user login valid
+            console.log(r.token);
+            if(r.token) {   //login success save token in the local storage and reurn 1
+                window.localStorage.setItem(name,r.token); 
+                render_home();
+            }else {     //login fail reset the form return 0
+                const form = document.querySelector('form');
+                form.reset();
+                alert("Wrong User Name or Password!");
+            }
+        })
+      .catch((err) => console.log(err));
 
 }
 
 //will render home page once the user login
 function render_home() {
+    
     ///insert the style reference link from bootstrap
     const bootstrap = helper.createElement('link',null,{href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
     large_feed.appendChild(bootstrap);
