@@ -134,7 +134,6 @@ function render_login() {
         //remove log button and change sign up to submit
         login_btn.remove();
         sign_btn.remove();
-        console.log(input_user);
         input_user.required=true;
         input_password.required =true;
 
@@ -169,10 +168,40 @@ function render_login() {
         body_form.appendChild(form)
         large_feed.appendChild(body_form);
 
-
-
-        return;
-    });
+        //add event listener for sumbit button
+        submit_btn.addEventListener('click',(e) => {
+            e.preventDefault();
+           
+            //payload for sign up
+            const payload = {
+                  "username": input_user.value,
+                  "password": input_password.value, 
+                  "email": input_email.value,
+                  "name": input_name.value 
+            }
+            //get the input into the data base
+            fetch('http://127.0.0.1:5000/auth/signup', {
+                method:'POST',
+                body:JSON.stringify(payload),
+                headers:{
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => response.json())
+              .then((r) => {
+                    //check response and see if the sign up success
+                    if(r.token) {   //sign up success save token in the storage
+                        window.localStorage.setItem(input_user.value,r.token); 
+                        render_home();
+                    }else {     //sign up failed show reason
+                        const form = document.querySelector('form');
+                        form.reset();
+                        alert(`Error Occured: ${r.message}`);
+                    }
+              })
+              .catch(err => console.log(err));
+        })
+    })
 
 }
 
