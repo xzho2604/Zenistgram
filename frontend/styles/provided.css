@@ -92,3 +92,63 @@ footer {
 }
 
 /* Add your styles here */
+.form-con {
+        display: block;
+        width: 93%;
+        height: 34px;
+        font-size: 14px;
+        line-height: 1.42857;
+        background-image: none;
+        box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px inset;
+        padding: 6px 12px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgb(204, 195, 195);
+        border-image: initial;
+        border-radius: 4px;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    }
+
+.login-form {
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        margin-bottom: 15px;
+        background: #f7f7f7;
+        padding: 30px;
+
+    }
+
+.form-body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.42857;
+    }
+
+.butt {
+        padding: 12px 6px;
+        font-size: 15px;
+        font-weight: bold;
+        min-height: 38px;
+        border-radius: 2px;
+        display: block;
+        width: 100%;
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #2e6da4;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+
+
+
+
+
+
+
+

@@ -36,11 +36,15 @@ export function createElement(tag, data, options = {}) {
  */
 export function createPostTile(post) {
     const section = createElement('section', null, { class: 'post' });
+    const comments = createElement('div',null,)
+
+    //add the description section to the end of the image
+     
+
 
     section.appendChild(createElement('h2', post.meta.author, { class: 'post-title' }));
-
-    section.appendChild(createElement('img', null, 
-        { src: '/images/'+post.src, alt: post.meta.description_text, class: 'post-image' }));
+    section.appendChild(createElement('p', post.meta.description_text, { class: 'container' }));
+    section.appendChild(createElement('img', null,{ src: '/images/'+post.src, alt: post.meta.description_text, class: 'post-image' }));
 
     return section;
 }
@@ -83,3 +87,6 @@ export function checkStore(key) {
         return null
 
 }
+
+
+
