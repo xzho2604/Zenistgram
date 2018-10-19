@@ -91,7 +91,7 @@ footer {
     }
 }
 
-/* Add your styles here */
+/* Add your styles here ========================*/
 .form-con {
         display: block;
         width: 93%;
@@ -145,8 +145,19 @@ footer {
         box-sizing: border-box;
     }
 
+.fa {
+    float:left;
+    position:relative;
+    left:4em;
+    top:6px;
+    font-size: 25px !important;
+    cursor: pointer;
+    user-select: none;
+}
 
-
+.fa:hover {
+  color: darkblue;
+}
 
 
 

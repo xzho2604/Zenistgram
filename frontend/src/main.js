@@ -7,12 +7,14 @@ import API from './api.js';
 
 //my code============================================================
 const large_feed = document.getElementById('large-feed');
+const head = document.querySelector('head');
 let user_name = '';
 let  password ='';
-fetch('http://localhost:8080/data/users.json')
-    .then(response => response.json())
-    .then(r => r) //need to do another then since hte .json will retunr a promise
-    .catch(err => console.log(err));
+
+
+//add like button css
+const like_css = helper.createElement('link',null,{rel:'stylesheet',href:'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'});
+head.appendChild(like_css);
 
 
 //render the login page
@@ -224,24 +226,8 @@ function render_home() {
     const attach = document.querySelector('.nav');
     attach.style.display = 'block';
 
-    //show attach feed to large_feed
     //get user's feed from the data base and render as user's home page
     const token = helper.checkStore(user_name);
-    
-/*
-    fetch('http://127.0.0.1:5000/user/feed', {
-        method:'GET',
-        headers:{
-            'accept': 'application/json',
-            'Authorization': 'Token ' + token
-        }
-    }).then (response => response.json())
-        .then((r) => {
-            return;
-        })
-        .catch(err => console.log(err));
- */   
-
     const option = {
         method:'GET',
         headers:{
@@ -250,6 +236,7 @@ function render_home() {
         }
     };
 
+    //show attach feed to large_feed
     fetch('http://127.0.0.1:5000/user/feed',option)
     .then(res =>res.json())
     .then(r => {

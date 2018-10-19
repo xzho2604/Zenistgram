@@ -37,8 +37,10 @@ export function createElement(tag, data, options = {}) {
 export function createPostTile(post) {
     const section = createElement('section', null, { class: 'post' });
     const comments = createElement('div',null,)
+    const reader = new FileReader();
 
-    //add the description section to the end of the image
+    // reader to create base 64 image
+   //add the description section to the end of the image
     
 
 
@@ -47,11 +49,25 @@ export function createPostTile(post) {
 
     section.appendChild(createElement('p', new Date(post.meta.published*1000), { style: 'padding:5px 10px;font-size:9pt;font-style: italic;color:grey;margin:auto'}));
     section.appendChild(createElement('p', post.meta.description_text, { style: 'padding:5px 10px;font-size:11pt;margin:auto'}));
-    section.appendChild(createElement('img', null,{ src: '/images/'+post.src, alt: post.meta.description_text, class: 'post-image' }));
+
+
+    //append the image to large feed
+   section.appendChild(createElement('img', null,{ src: 'data:image/jpg;base64,' + post.src, alt: post.meta.description_text, class: 'post-image' }));
 
     //add two div for comments and likes 
-    const comment_div = createElement('div',null,{style:'width:50%;float:left;margin:auto'})
-    const like_div = createElement('div',null,{style:'width:50%;float:left;margin:auto'})
+    const comment_div = createElement('span',null,{style:'width:50%;float:left;margin:auto'})
+    const like_div = createElement('span',null,{style:'width:50%;float:left;margin:auto'})
+    
+    //add like icon to the like div
+    //<i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+    const like_btn = createElement('i',null,{class:'fa fa-thumbs-up'});
+    like_div.appendChild(like_btn);
+
+    //add comment icon to the comment div
+    //<i class="fa fa-comment" style="font-size:24px"></i>
+    const comment_btn = createElement('i',null,{class:'fa fa fa-comment',style:'left:3em !important'});
+    comment_div.appendChild(comment_btn);
+
 
     comment_div.appendChild(createElement('p', `Comments: ${post.comments.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
     like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
