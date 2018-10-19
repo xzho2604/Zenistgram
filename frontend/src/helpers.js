@@ -45,7 +45,7 @@ export function createPostTile(post) {
     section.appendChild(createElement('h2', post.meta.author, { class: 'post-title' }));
     //post time show underneath the person who posted
 
-    section.appendChild(createElement('p', post.meta.published, { style: 'padding:5px 10px;font-size:9pt;font-style: italic;color:grey;margin:auto'}));
+    section.appendChild(createElement('p', new Date(post.meta.published*1000), { style: 'padding:5px 10px;font-size:9pt;font-style: italic;color:grey;margin:auto'}));
     section.appendChild(createElement('p', post.meta.description_text, { style: 'padding:5px 10px;font-size:11pt;margin:auto'}));
     section.appendChild(createElement('img', null,{ src: '/images/'+post.src, alt: post.meta.description_text, class: 'post-image' }));
 
@@ -53,7 +53,7 @@ export function createPostTile(post) {
     const comment_div = createElement('div',null,{style:'width:50%;float:left;margin:auto'})
     const like_div = createElement('div',null,{style:'width:50%;float:left;margin:auto'})
 
-    comment_div.appendChild(createElement('p', `Comments: ${post.meta.comments.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
+    comment_div.appendChild(createElement('p', `Comments: ${post.comments.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
     like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
     section.appendChild(comment_div);
     section.appendChild(like_div);
@@ -99,6 +99,8 @@ export function checkStore(key) {
         return null
 
 }
+
+
 
 
 

@@ -4,7 +4,6 @@ import * as helper  from './helpers.js';
 // when importing 'default' exports, use below syntax
 import API from './api.js';
 
-const api  = new API();
 
 //my code============================================================
 const large_feed = document.getElementById('large-feed');
@@ -227,33 +226,39 @@ function render_home() {
 
     //show attach feed to large_feed
     //get user's feed from the data base and render as user's home page
-    const feed = api.getFeed();
+    const token = helper.checkStore(user_name);
+    
+/*
+    fetch('http://127.0.0.1:5000/user/feed', {
+        method:'GET',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token
+        }
+    }).then (response => response.json())
+        .then((r) => {
+            return;
+        })
+        .catch(err => console.log(err));
+ */   
 
+    const option = {
+        method:'GET',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token
+        }
+    };
 
-    /*
-    //sort the feed json in reverse chronoical order
-    feed = feed.sort((a,b) => {
-        const a_time = a.meta.published;
-        const b_time = b.meta.published;
-
-        //a_time:"published": "Sat Aug 04 2018 20:20:12 GMT+1000 (Australian Eastern Standard Time)"
-
-
-
-    })
-    */
-
-    feed
-    .then(posts => {
-        posts.reduce((parent, post) => {
-            parent.appendChild(helper.createPostTile(post));
-            return parent;
-        }, document.getElementById('large-feed'))
+    fetch('http://127.0.0.1:5000/user/feed',option)
+    .then(res =>res.json())
+    .then(r => {
+        r.posts.forEach(post => {
+            console.log(post);
+            large_feed.appendChild(helper.createPostTile(post));
+        })
     });
 
 
 
-
 }
-
-
