@@ -217,7 +217,7 @@ function render_home() {
     
     ///insert the style reference link from bootstrap
     const bootstrap = helper.createElement('link',null,{href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
-    large_feed.appendChild(bootstrap);
+    head.appendChild(bootstrap);
 
     //remove the login form
     large_feed.innerHTML ='';
@@ -225,6 +225,9 @@ function render_home() {
     //unhide the attach photo section
     const attach = document.querySelector('.nav');
     attach.style.display = 'block';
+    attach.children[1].remove();
+    attach.children[1].remove();
+
 
     //get user's feed from the data base and render as user's home page
     const token = helper.checkStore(user_name);
@@ -241,11 +244,29 @@ function render_home() {
     .then(res =>res.json())
     .then(r => {
         r.posts.forEach(post => {
-            console.log(post);
             large_feed.appendChild(helper.createPostTile(post));
         })
     });
 
 
+    //modal triger
+    const show_like = document.getElementById('like');
+    const myModal = document.getElementById('myModal');
+    var cross = document.getElementsByClassName("close")[0];
+
+    //click on the button to open modal
+    show_like.addEventListener('click',() => {
+        myModal.style.display = "block";
+    })
+
+    //click on the x to close the modal
+    cross.onclick = function() {
+        myModal.style.display = "none";
+    }
+
 
 }
+
+
+
+

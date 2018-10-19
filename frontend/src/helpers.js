@@ -69,8 +69,12 @@ export function createPostTile(post) {
     comment_div.appendChild(comment_btn);
 
 
+    //<div class="bootstrap-iso">
+    //<!-- Any HTML here will be styled with Bootstrap CSS -->
+    //</div>
+
     comment_div.appendChild(createElement('p', `Comments: ${post.comments.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
-    like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
+    like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, { id:'like',style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
     section.appendChild(comment_div);
     section.appendChild(like_div);
     section.appendChild(document.createElement('HR'));
