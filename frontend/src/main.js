@@ -16,9 +16,10 @@ const header =document.querySelector('.banner');
 header.appendChild(make_modal());
 
 //set modal default display none
-const myModal = document.getElementById('myModal');
+let myModal = document.getElementById('myModal');
 var cross = document.getElementsByClassName("close")[0];
 myModal.style.display ="none";
+let modal_posts = document.getElementById('modal_posts');
 
 //add like button css
 const like_css = helper.createElement('link',null,{rel:'stylesheet',href:'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'});
@@ -265,7 +266,17 @@ function render_home() {
         r.posts.forEach(post => {
             large_feed.appendChild(helper.createPostTile(post));
         })
+        
+        //modol bind likes so that when click like txt will show who likes this post
+        modal_bind_like();
 
+    });
+
+}
+
+
+//bind modal with like text so that when click will show likes
+function modal_bind_like() {
         //modal bonding like
         //onece page load add modal trigger
         const like_text = document.querySelectorAll('.like');
@@ -281,29 +292,55 @@ function render_home() {
         //click on the x to close the modal
         cross.onclick = function() {
             myModal.style.display = "none";
+            //reset the modal content to its orignal content
+            modal_posts.innerHTML = '';
+
         }
-
-
-
-    });
-
 }
+
 
 
 
 //to display likes onto the mortal;
 function display_like(e) {
     //show the like user id
-    console.log('hehahahhh');
-    const like_ids = helper.createElement('p',e.target.getAttribute('data_likes'));
-    
-    myModal.children[0].appendChild(like_ids);
+    const like_ids = (e.target.getAttribute('data_likes')).split(',');
+    console.log(typeof like_ids);
 
+    //given user ids return a list of user name relates to that id
+    like_ids.forEach (user_id => {
+        make_like_user(user_id);
 
+    })
     return;
 }
 
 
+//give a user id return a user name paragraph
+function make_like_user(user_id) {
+    const token = helper.checkStore(user_name);
+    const option = {
+        method:'GET',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token
+        }
+    };
+
+    //show attach feed to large_feed
+    fetch(`http://127.0.0.1:5000/user/?id=${user_id}`,option)
+    .then(res => res.json())
+    .then(r => {
+//        console.log(r.username)
+
+        //make a user name para graph and add to the modal
+        modal_posts.appendChild(helper.createElement('p',r.username));
+        modal_posts.appendChild(document.createElement('HR'));
+
+     })
+    .catch(err => console.log(err));
+
+}
 
 
 
@@ -315,7 +352,9 @@ function make_modal() {
                <!-- Modal content -->
                <div class="modal-content">
                      <span class="close">&times;</span>
-                     <p>Some text in the Modal..</p>
+                     <p><b>People Like This Post</b></p>
+               </div>
+               <div class="modal-content" id="modal_posts">
                </div>
    `
     return modal;
