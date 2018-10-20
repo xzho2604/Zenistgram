@@ -202,4 +202,10 @@ hr {
     cursor: pointer;
 }
 
-
+.like {
+    padding:10px 10px;
+    font-size:11pt;
+    color:grey;
+    text-align:center;
+    margin:auto';
+}

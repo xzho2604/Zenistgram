@@ -266,14 +266,16 @@ function render_home() {
             large_feed.appendChild(helper.createPostTile(post));
         })
 
-         //onece page load add modal trigger
-        const show_like = document.getElementById('like');
+        //modal bonding like
+        //onece page load add modal trigger
+        const like_text = document.querySelectorAll('.like');
 
-        //click on the button to open modal
-        show_like.addEventListener('click',() => {
-            console.log('I am here')
-            console.log(myModal);
-            myModal.style.display ="block";
+        //click on the button on each like text to open modal
+        like_text.forEach(element => {
+            element.addEventListener('click',() => {
+                myModal.style.display ="block";
+                display_like();
+            })
         })
 
         //click on the x to close the modal
@@ -286,6 +288,18 @@ function render_home() {
     });
 
 }
+
+
+
+//to display likes onto the mortal;
+function display_like() {
+    return;
+}
+
+
+
+
+
 
 // to creaet a modal frame work to insert elemtn in
 function make_modal() {

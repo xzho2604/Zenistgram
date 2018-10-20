@@ -68,13 +68,11 @@ export function createPostTile(post) {
     const comment_btn = createElement('i',null,{class:'fa fa fa-comment',style:'left:3em !important'});
     comment_div.appendChild(comment_btn);
 
-
-    //<div class="bootstrap-iso">
-    //<!-- Any HTML here will be styled with Bootstrap CSS -->
-    //</div>
-
+    //create like text and number same for comments
     comment_div.appendChild(createElement('p', `Comments: ${post.comments.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
-    like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, { id:'like',style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
+    like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, { class:'like'}));
+
+
     section.appendChild(comment_div);
     section.appendChild(like_div);
     section.appendChild(document.createElement('HR'));
