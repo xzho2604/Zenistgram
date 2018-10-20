@@ -293,10 +293,10 @@ function make_log_off() {
         user_name ='';
         password ='';
         render_login();
-        console.log('hi');
+
+        //remove the log_off button
+        log_off.remove();
     }) 
-
-
     return;
 }
 
@@ -344,7 +344,7 @@ function display_like(e) {
 
 //give a user id return a user name paragraph
 function make_like_user(user_id) {
-    const token = helper.checkStore(user_name);
+    const token = helper.checkStore('user');
     const option = {
         method:'GET',
         headers:{
