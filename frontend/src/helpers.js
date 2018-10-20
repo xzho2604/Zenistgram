@@ -60,7 +60,7 @@ export function createPostTile(post) {
     
     //add like icon to the like div
     //<i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
-    const like_btn = createElement('i',null,{class:'fa fa-thumbs-up'});
+    const like_btn = createElement('i',null,{class:'fa fa-thumbs-up',data_post_id:post.id});
     like_div.appendChild(like_btn);
 
     //add comment icon to the comment div

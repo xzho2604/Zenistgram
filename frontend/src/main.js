@@ -273,9 +273,56 @@ function render_home() {
         //modol bind likes so that when click like txt will show who likes this post
         modal_bind_like();
 
+        //bind like when click on the like icon user like this post
+        like_click();
+
     });
 
 }
+
+
+//bind like when click on the like icon user like this post
+function like_click() {
+    const like_icons = document.querySelectorAll('.fa-thumbs-up');
+
+    console.log(like_icons);
+    //bind each like_icon to the even listener
+    like_icons.forEach(icon => {
+        icon.addEventListener('click', (e) => {
+            //add like to this post
+            const post_id = e.target.getAttribute('data_post_id');
+            
+            //send the like post to theb backend
+            
+            const token = helper.checkStore('user');
+            const option = {
+                method:'PUT',
+                headers:{
+                    'accept': 'application/json',
+                    'Authorization': 'Token ' + token
+                }
+            };
+
+
+            //show attach feed to large_feed
+            fetch(`http://127.0.0.1:5000/post/like?id=${post_id}`,option)
+            .then(res =>res.json())
+            .then(r => alert(r.message))
+            .catch(err => console.log(err));
+ 
+            return;
+        })
+
+    })
+
+    return;
+}
+
+
+
+
+
+
 
 
 //to make log off button on the user homepage
@@ -331,7 +378,6 @@ function modal_bind_like() {
 function display_like(e) {
     //show the like user id
     const like_ids = (e.target.getAttribute('data_likes')).split(',');
-    console.log(typeof like_ids);
 
     //given user ids return a list of user name relates to that id
     like_ids.forEach (user_id => {
