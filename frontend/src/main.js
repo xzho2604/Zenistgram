@@ -27,7 +27,7 @@ head.appendChild(like_css);
 
 
 //render the login page
-render_login();
+(helper.checkStore('user')) ? render_home() :render_login();
 
 
 // Potential example to upload an image
@@ -182,7 +182,7 @@ function render_login() {
               .then((r) => {
                     //check response and see if the sign up success
                     if(r.token) {   //sign up success save token in the storage
-                        window.localStorage.setItem(input_user.value,r.token); 
+                        window.localStorage.setItem('user',r.token); 
                         render_home();
                     }else {     //sign up failed show reason
                         const form = document.querySelector('form');
@@ -219,7 +219,7 @@ function validate_user (name, pass) {
             //check if user login valid
             //console.log(r.token);
             if(r.token) {   //login success save token in the local storage and reurn 1
-                window.localStorage.setItem(name,r.token); 
+                window.localStorage.setItem('user',r.token); 
                 render_home();
             }else {     //login fail reset the form return 0
                 const form = document.querySelector('form');
@@ -252,7 +252,7 @@ function render_home() {
     if(!document.getElementById('log_off')) make_log_off();
 
     //get user's feed from the data base and render as user's home page
-    const token = helper.checkStore(user_name);
+    const token = helper.checkStore('user');
     const option = {
         method:'GET',
         headers:{
