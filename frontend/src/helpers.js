@@ -76,6 +76,32 @@ export function createPostTile(post) {
     section.appendChild(comment_div);
     section.appendChild(like_div);
     section.appendChild(document.createElement('HR'));
+
+    //add comments to the post
+    /*
+    <div class="col-sm-5">
+    </div>
+    */
+    post.comments.forEach(c=> {
+        let comment_post = createElement('div',null,{class:'row-sm-5'});
+        comment_post.innerHTML = `
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>${c.author}</strong> <span class="text-muted">Published:${new Date(c.published*1000)}</span>
+                </div>
+                <div class="panel-body">
+                   ${c.comment} 
+                </div><!-- /panel-body -->
+            </div><!-- /panel panel-default -->
+        `
+
+        section.appendChild(comment_post);
+    })
+
+
+
+
+
     return section;
 }
 
