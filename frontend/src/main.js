@@ -11,14 +11,31 @@ const head = document.querySelector('head');
 let user_name = '';
 let  password ='';
 
+//insert create modal on to the page
+const header =document.querySelector('.banner'); 
+header.appendChild(make_modal());
+
+//set modal default display none
+const myModal = document.getElementById('myModal');
+var cross = document.getElementsByClassName("close")[0];
+myModal.style.display ="none";
 
 //add like button css
 const like_css = helper.createElement('link',null,{rel:'stylesheet',href:'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'});
 head.appendChild(like_css);
 
+/*
+//add js for modal
+const modal_jq = helper.createElement('script',null,{src:'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'});
+const modal_js = helper.createElement('script',null,{src:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'});
+head.appendChild(modal_jq);
+head.appendChild(modal_js);
+*/
+
 
 //render the login page
 render_login();
+
 
 // Potential example to upload an image
 const input = document.querySelector('input[type="file"]');
@@ -222,6 +239,7 @@ function render_home() {
     //remove the login form
     large_feed.innerHTML ='';
 
+
     //unhide the attach photo section
     const attach = document.querySelector('.nav');
     attach.style.display = 'block';
@@ -239,6 +257,7 @@ function render_home() {
         }
     };
 
+
     //show attach feed to large_feed
     fetch('http://127.0.0.1:5000/user/feed',option)
     .then(res =>res.json())
@@ -246,27 +265,40 @@ function render_home() {
         r.posts.forEach(post => {
             large_feed.appendChild(helper.createPostTile(post));
         })
+
+         //onece page load add modal trigger
+        const show_like = document.getElementById('like');
+
+        //click on the button to open modal
+        show_like.addEventListener('click',() => {
+            console.log('I am here')
+            console.log(myModal);
+            myModal.style.display ="block";
+        })
+
+        //click on the x to close the modal
+        cross.onclick = function() {
+            myModal.style.display = "none";
+        }
+
+
+
     });
-
-
-    //modal triger
-    const show_like = document.getElementById('like');
-    const myModal = document.getElementById('myModal');
-    var cross = document.getElementsByClassName("close")[0];
-
-    //click on the button to open modal
-    show_like.addEventListener('click',() => {
-        myModal.style.display = "block";
-    })
-
-    //click on the x to close the modal
-    cross.onclick = function() {
-        myModal.style.display = "none";
-    }
-
 
 }
 
+// to creaet a modal frame work to insert elemtn in
+function make_modal() {
+    const modal = helper.createElement('div',null,{id:'myModal',class:'modal'});
+    modal.innerHTML = ` 
+               <!-- Modal content -->
+               <div class="modal-content">
+                     <span class="close">&times;</span>
+                     <p>Some text in the Modal..</p>
+               </div>
+   `
+    return modal;
 
+}
 
 
