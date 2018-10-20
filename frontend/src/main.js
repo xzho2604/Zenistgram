@@ -272,9 +272,9 @@ function render_home() {
 
         //click on the button on each like text to open modal
         like_text.forEach(element => {
-            element.addEventListener('click',() => {
+            element.addEventListener('click',(e) => {
                 myModal.style.display ="block";
-                display_like();
+                display_like(e);
             })
         })
 
@@ -292,7 +292,14 @@ function render_home() {
 
 
 //to display likes onto the mortal;
-function display_like() {
+function display_like(e) {
+    //show the like user id
+    console.log('hehahahhh');
+    const like_ids = helper.createElement('p',e.target.getAttribute('data_likes'));
+    
+    myModal.children[0].appendChild(like_ids);
+
+
     return;
 }
 

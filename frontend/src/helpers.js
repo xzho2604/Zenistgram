@@ -70,7 +70,7 @@ export function createPostTile(post) {
 
     //create like text and number same for comments
     comment_div.appendChild(createElement('p', `Comments: ${post.comments.length}`, { style: 'padding:10px 10px;font-size:11pt;color:grey;text-align:center;margin:auto' }));
-    like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, { class:'like'}));
+    like_div.appendChild(createElement('p', `Likes: ${post.meta.likes.length}`, {class:'like','data_likes':post.meta.likes}));
 
 
     section.appendChild(comment_div);
