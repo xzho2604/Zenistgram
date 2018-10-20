@@ -85,7 +85,7 @@ export function createPostTile(post) {
     post.comments.forEach(c=> {
         let comment_post = createElement('div',null,{class:'row-sm-5'});
         comment_post.innerHTML = `
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="border:none">
                 <div class="panel-heading">
                     <strong>${c.author}</strong> <span class="text-muted">Published:${new Date(c.published*1000)}</span>
                 </div>
