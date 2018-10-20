@@ -25,14 +25,6 @@ let modal_posts = document.getElementById('modal_posts');
 const like_css = helper.createElement('link',null,{rel:'stylesheet',href:'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'});
 head.appendChild(like_css);
 
-/*
-//add js for modal
-const modal_jq = helper.createElement('script',null,{src:'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'});
-const modal_js = helper.createElement('script',null,{src:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'});
-head.appendChild(modal_jq);
-head.appendChild(modal_js);
-*/
-
 
 //render the login page
 render_login();
@@ -47,6 +39,15 @@ input.addEventListener('change', helper.uploadImage);
 //========================Functions===============================================
 //render login page
 function render_login() {
+
+    //clear the original content in large feed
+    large_feed.innerHTML ='';
+
+    //remove the bootstrap css for login page
+    let bootstrap = document.getElementById('bootstrap');
+    if(bootstrap) bootstrap.remove();
+
+
     //hide the attach phto section
     const attach = document.querySelector('.nav');
     attach.style.display = 'none';
@@ -234,7 +235,7 @@ function validate_user (name, pass) {
 function render_home() {
     
     ///insert the style reference link from bootstrap
-    const bootstrap = helper.createElement('link',null,{href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
+    const bootstrap = helper.createElement('link',null,{id:'bootstrap',href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
     head.appendChild(bootstrap);
 
     //remove the login form
@@ -244,9 +245,11 @@ function render_home() {
     //unhide the attach photo section
     const attach = document.querySelector('.nav');
     attach.style.display = 'block';
-    attach.children[1].remove();
-    attach.children[1].remove();
+    if(attach.children[1]) attach.children[1].remove();
+    if(attach.children[1]) attach.children[1].remove();
 
+    //create the log off button
+    if(!document.getElementById('log_off')) make_log_off();
 
     //get user's feed from the data base and render as user's home page
     const token = helper.checkStore(user_name);
@@ -272,6 +275,29 @@ function render_home() {
 
     });
 
+}
+
+
+//to make log off button on the user homepage
+function make_log_off() {
+   //add the log off button to the header
+    const log_off = helper.createElement('button',null,{id:'log_off',class:'btn btn-default btn-sm',type:'button'});
+    log_off.innerHTML =`<span class="glyphicon glyphicon-log-out"></span> Log out`; 
+
+    //append log_off to the header
+    header.appendChild(log_off);
+
+    //when click on the log off will render log in page and clear local storage for tokens    
+    log_off.addEventListener('click',() => {
+        window.localStorage.clear();
+        user_name ='';
+        password ='';
+        render_login();
+        console.log('hi');
+    }) 
+
+
+    return;
 }
 
 
