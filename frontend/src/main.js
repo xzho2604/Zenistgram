@@ -11,6 +11,7 @@ const head = document.querySelector('head');
 let user_name = '';
 let  password ='';
 
+
 //insert create modal on to the page
 const header =document.querySelector('.banner'); 
 header.appendChild(make_modal());
@@ -49,13 +50,19 @@ function render_login() {
     //clear the original content in large feed
     large_feed.innerHTML ='';
 
+    //remove the user name
+    const user_but = document.querySelector('.astext');
+    if(user_but) user_but.remove();
+
+
+    //remove the upload file
+    const post_but = document.getElementById('post_btn');
+    if(post_but) post_but.remove();
+
+
     //remove the bootstrap css for login page
     let bootstrap = document.getElementById('bootstrap');
     if(bootstrap) bootstrap.remove();
-
-    //hide the footer
-    const footer = document.querySelector('footer');
-    footer.style.display = 'none';
 
     //creat an dive for form body stype that encapsulate the form
     const body_form = helper.createElement('div',null,{class:'form-body'});
@@ -239,8 +246,10 @@ function validate_user (name, pass) {
 function render_home() {
     
     ///insert the style reference link from bootstrap
-    const bootstrap = helper.createElement('link',null,{id:'bootstrap',href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
-    head.appendChild(bootstrap);
+    if(document.getElementById('bootstrap') === null) {
+        const bootstrap = helper.createElement('link',null,{id:'bootstrap',href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
+        head.appendChild(bootstrap);
+    }
 
     //remove the login form
     large_feed.innerHTML ='';
@@ -259,10 +268,10 @@ function render_home() {
     };
 
     //add post button to the top of the page
-    make_post_btn();
+    if(document.getElementById('post_btn') === null) make_post_btn();
 
     //add user name button at the top
-    make_user_btn();
+    if(document.querySelector('.astext') === null) make_user_btn();
 
     //show attach feed to large_feed
     fetch('http://127.0.0.1:5000/user/feed',option)
@@ -334,19 +343,8 @@ function make_user_btn() {
     user_btn.addEventListener('click',() => {
         //render user profile page
         render_profile();
-        
-
-
-
-
-
-
-
-
     })
         
-
-
     return;
 }
 
@@ -382,21 +380,28 @@ function render_profile() {
 
         })
 
-     //got the post ids
-     Promise.all(promises)
-     .then(posts => {
-         posts.forEach(post => {
-            //wrap the post and put onto large_feed
-            large_feed.appendChild(helper.createPostTile(post));
+        //got the post ids
+        Promise.all(promises)
+        .then(posts => {
+            posts.forEach(post => {
+               //wrap the post and put onto large_feed
+               large_feed.appendChild(helper.createPostTile(post));
+            })
+            //modol bind likes so that when click like txt will show who likes this post
+            modal_bind_like();
+            //bind like when click on the like icon user like this post
+            like_click();
+
          })
-         //modol bind likes so that when click like txt will show who likes this post
-         modal_bind_like();
-         //bind like when click on the like icon user like this post
-         like_click();
-
-      })
-
     })
+
+    //when click on the loga return to the home page is user is logged in
+    const logo = document.getElementById('logo');
+    logo.addEventListener('click', () => {
+        if(helper.checkStore('user') !== null) render_home();
+    })
+
+
 
 }
 
@@ -509,11 +514,6 @@ function post_post(description_txt,file) {
     }
         return true;
 }
-
-
-
-
-
 
 
 //to make log off button on the user homepage

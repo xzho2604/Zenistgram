@@ -201,6 +201,8 @@ hr {
     margin:0;
     padding:0;
     cursor: pointer;
+    position:absolute;
+    left:100px;
 }
 
 .like {
