@@ -26,13 +26,19 @@ const like_css = helper.createElement('link',null,{rel:'stylesheet',href:'https:
 head.appendChild(like_css);
 
 
+//add upload file style ref
+//const choose_file_css = helper.createElement('link',null,{rel:'stylesheet',href:'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'});
+//head.appendChild(choose_file_css);
+
+
+
 //render the login page
 (helper.checkStore('user')) ? render_home() :render_login();
 
 
 // Potential example to upload an image
-const input = document.querySelector('input[type="file"]');
-input.addEventListener('change', helper.uploadImage);
+//const input = document.querySelector('input[type="file"]');
+//input.addEventListener('change', helper.uploadImage);
 
 
 
@@ -244,9 +250,9 @@ function render_home() {
 
     //unhide the attach photo section
     const attach = document.querySelector('.nav');
-    attach.style.display = 'block';
-    if(attach.children[1]) attach.children[1].remove();
-    if(attach.children[1]) attach.children[1].remove();
+    //attach.style.display = 'block';
+    //if(attach.children[1]) attach.children[1].remove();
+    //if(attach.children[1]) attach.children[1].remove();
 
     //create the log off button
     if(!document.getElementById('log_off')) make_log_off();
@@ -260,6 +266,9 @@ function render_home() {
             'Authorization': 'Token ' + token
         }
     };
+
+    //add post button to the top of the page
+    make_post_btn();
 
 
     //show attach feed to large_feed
@@ -277,6 +286,9 @@ function render_home() {
         like_click();
 
     });
+
+    
+
 
 }
 
@@ -320,6 +332,112 @@ function like_click() {
 
 
 
+//to make a post button at the top of header
+function make_post_btn() {
+    const modal_post = document.getElementById('modal_posts');
+
+
+    //make the post bottun at the top
+    const post_btn = helper.createElement('button',null,{id:'post_btn',class:'btn btn-default btn-sm',type:'button'});
+    post_btn.innerHTML = 'Create New Post';
+    header.insertBefore(post_btn,header.children[1]);
+
+    //when click on post will show a modal for creating new post
+    post_btn.addEventListener('click', () => {
+        myModal.style.display = "block";
+       
+        //create the post modal
+        //add the description box
+        const description_box = helper.createElement('form',null,{id:'post_form'});
+        description_box.innerHTML = `
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea class="form-control" rows="5" id="description"></textarea>
+                </div>
+        `
+        modal_post.appendChild(description_box);
+
+        //add the attach file section
+        const upload_btn = helper.createElement('div',null,{class:'upload-btn-wrapper'});
+        upload_btn.innerHTML = `
+            <button class="btn_upload">Upload a photo</button>
+            <input type="file" name="myfile" />
+        `
+        modal_post.appendChild(upload_btn);
+        
+        //add post_submit button
+        const post_submit = helper.createElement('button','Submit',{type:'button',class:'ubtn btn-primary btn-md'});
+        post_submit.style.float ='right';
+        modal_post.appendChild(post_submit); 
+    
+        //add the event when submit
+        post_submit.addEventListener('click',() => {
+            //read value from the descripton
+            const description_txt = document.getElementById('description').value;
+            //get value from the file input
+            const file_chosen = document.querySelector('input[type="file"]');
+            const [file] = file_chosen.files;
+
+            //check if file and description are both present
+            if(description_txt !== '' & file !== '') {
+                //check if the upload is valid
+                const result = post_post(description_txt,file);
+                result ? alert('Post Sucess!') : alert('Can not Upload Please check');
+
+            } else {
+                alert('Please enter description and input a valid png file');
+            }
+
+        })
+
+    })
+
+}
+
+//post post return true if sucess else false
+function post_post(description_txt,file) {
+//    console.log(description_txt);
+//    console.log(file);
+
+    //send the post post request to the backend to store the post
+    const photo = helper.uploadImage(file);
+    if(photo === false) return false;  //if upload not successs return false
+    
+    //if sucess read the file now can post to the back
+    photo.onload = (e) => {
+        const dataurl = e.target.result;
+
+        //post to back
+        //make the post post to the backend    
+        const token = helper.checkStore('user');
+        const payload = {
+            'description_text':description_txt,
+            'src':dataurl.slice(22)
+        }
+    
+        console.log(payload);
+
+        const option = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'accept': 'application/json',
+                'Authorization': 'Token ' + token
+            },
+            body:JSON.stringify(payload)
+        };
+
+        //show attach feed to large_feed
+        fetch(`http://127.0.0.1:5000/post/`,option)
+        .then(res => res.json())
+        .then(r => console.log(r))
+        .catch(err => console.log(err));
+
+    }
+
+    return true;
+
+}
 
 
 
@@ -424,7 +542,7 @@ function make_modal() {
                <!-- Modal content -->
                <div class="modal-content">
                      <span class="close">&times;</span>
-                     <p><b>People Like This Post</b></p>
+                     <p><b>Lets Have a Greate Day :)</b></p>
                </div>
                <div class="modal-content" id="modal_posts">
                </div>

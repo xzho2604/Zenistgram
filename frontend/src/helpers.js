@@ -106,8 +106,8 @@ export function createPostTile(post) {
 }
 
 // Given an input element of type=file, grab the data uploaded for use
-export function uploadImage(event) {
-    const [ file ] = event.target.files;
+export function uploadImage(file) {
+//    const [ file ] = event.target.files;
 
     const validFileTypes = [ 'image/jpeg', 'image/png', 'image/jpg' ]
     const valid = validFileTypes.find(type => type === file.type);
@@ -118,16 +118,19 @@ export function uploadImage(event) {
     
     // if we get here we have a valid image
     const reader = new FileReader();
-    
+   
+    /*
     reader.onload = (e) => {
-        // do something with the data result
+        //do something with the data result
         const dataURL = e.target.result;
         const image = createElement('img', null, { src: dataURL });
         document.body.appendChild(image);
     };
-
+    */
     // this returns a base64 image
     reader.readAsDataURL(file);
+
+    return reader;
 }
 
 /* 
