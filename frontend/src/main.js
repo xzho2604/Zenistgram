@@ -11,7 +11,6 @@ const head = document.querySelector('head');
 let user_name = '';
 let  password ='';
 
-
 //insert create modal on to the page
 const header =document.querySelector('.banner'); 
 header.appendChild(make_modal());
@@ -33,8 +32,18 @@ head.appendChild(like_css);
 
 
 
-//render the login page
-(helper.checkStore('user')) ? render_home() :render_login();
+//depend on user status render different pages
+
+if(helper.checkStore('user')){
+    //check the status of the logined in user
+    const status = helper.checkStore('status');
+    console.log(status);
+    if(status === '0') render_home();
+    if(status === '1') render_profile();
+
+} else {
+    render_login();
+}
 
 
 // Potential example to upload an image
@@ -244,7 +253,9 @@ function validate_user (name, pass) {
 
 //will render home page once the user login
 function render_home() {
-    
+    //change stauts in the localstorage
+    window.localStorage.setItem('status',0);
+
     ///insert the style reference link from bootstrap
     if(document.getElementById('bootstrap') === null) {
         const bootstrap = helper.createElement('link',null,{id:'bootstrap',href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
@@ -352,6 +363,20 @@ function make_user_btn() {
 
 //render the profile of the current user page
 function render_profile() {
+    //change the status of the user now in profile
+    window.localStorage.setItem('status',1);
+
+    //render all the element in the header if not created
+    if(document.getElementById('post_btn') === null) make_post_btn();
+    if(document.querySelector('.astext') === null) make_user_btn();
+    ///insert the style reference link from bootstrap
+    if(document.getElementById('bootstrap') === null) {
+        const bootstrap = helper.createElement('link',null,{id:'bootstrap',href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
+        head.appendChild(bootstrap);
+    }
+    //create the log off button
+    if(!document.getElementById('log_off')) make_log_off();
+
     //clear the content in large feed
     large_feed.innerHTML = '';
 
