@@ -53,11 +53,6 @@ function render_login() {
     let bootstrap = document.getElementById('bootstrap');
     if(bootstrap) bootstrap.remove();
 
-
-    //hide the attach phto section
-    const attach = document.querySelector('.nav');
-    attach.style.display = 'none';
-
     //hide the footer
     const footer = document.querySelector('footer');
     footer.style.display = 'none';
@@ -189,6 +184,8 @@ function render_login() {
                     //check response and see if the sign up success
                     if(r.token) {   //sign up success save token in the storage
                         window.localStorage.setItem('user',r.token); 
+                        window.localStorage.setItem('name',user_name); 
+                        
                         render_home();
                     }else {     //sign up failed show reason
                         const form = document.querySelector('form');
@@ -226,6 +223,7 @@ function validate_user (name, pass) {
             //console.log(r.token);
             if(r.token) {   //login success save token in the local storage and reurn 1
                 window.localStorage.setItem('user',r.token); 
+                window.localStorage.setItem('name',user_name);
                 render_home();
             }else {     //login fail reset the form return 0
                 const form = document.querySelector('form');
@@ -247,13 +245,6 @@ function render_home() {
     //remove the login form
     large_feed.innerHTML ='';
 
-
-    //unhide the attach photo section
-    const attach = document.querySelector('.nav');
-    //attach.style.display = 'block';
-    //if(attach.children[1]) attach.children[1].remove();
-    //if(attach.children[1]) attach.children[1].remove();
-
     //create the log off button
     if(!document.getElementById('log_off')) make_log_off();
 
@@ -270,6 +261,8 @@ function render_home() {
     //add post button to the top of the page
     make_post_btn();
 
+    //add user name button at the top
+    make_user_btn();
 
     //show attach feed to large_feed
     fetch('http://127.0.0.1:5000/user/feed',option)
@@ -287,8 +280,6 @@ function render_home() {
 
     });
 
-    
-
 
 }
 
@@ -297,7 +288,6 @@ function render_home() {
 function like_click() {
     const like_icons = document.querySelectorAll('.fa-thumbs-up');
 
-    console.log(like_icons);
     //bind each like_icon to the even listener
     like_icons.forEach(icon => {
         icon.addEventListener('click', (e) => {
@@ -328,6 +318,86 @@ function like_click() {
     })
 
     return;
+}
+
+
+//make user name button at the top when click will render user' profiel page
+function make_user_btn() {
+    const user_btn = helper.createElement('button',null,{class:'astext'});
+    const name = helper.checkStore('name');
+    user_btn.innerHTML = `
+        <b style="font-size:x-large">${name}</b>
+    `
+    header.insertBefore(user_btn,header.children[1]);
+
+    //add click event to the button will take user to their own profile page
+    user_btn.addEventListener('click',() => {
+        //render user profile page
+        render_profile();
+        
+
+
+
+
+
+
+
+
+    })
+        
+
+
+    return;
+}
+
+
+
+//render the profile of the current user page
+function render_profile() {
+    //clear the content in large feed
+    large_feed.innerHTML = '';
+
+    //request the post from the backend
+    const token = helper.checkStore('user');
+    const option = {
+        method:'GET',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token
+        }
+    };
+
+
+    //show attach feed to large_feed
+    var promises = [];
+    fetch('http://127.0.0.1:5000/user',option)
+    .then(res =>res.json())
+    .then(r => {
+         //get post from the given post_id
+        r.posts.forEach(post_id => {
+            //append promises to the list
+            promises.push(fetch(`http://127.0.0.1:5000/post/?id=${post_id}`,option)
+            .then(res => res.json())
+            .catch(err => console.log(err)));
+
+        })
+
+     //got the post ids
+     Promise.all(promises)
+     .then(posts => {
+         posts.forEach(post => {
+            //wrap the post and put onto large_feed
+            large_feed.appendChild(helper.createPostTile(post));
+         })
+         //modol bind likes so that when click like txt will show who likes this post
+         modal_bind_like();
+         //bind like when click on the like icon user like this post
+         like_click();
+
+      })
+
+    })
+
 }
 
 
@@ -404,7 +474,7 @@ function post_post(description_txt,file) {
     if(photo === false) return false;  //if upload format not right return false
     
     //if sucess read the file now can post to the back
-    photo.onload = (e) => {
+    photo.onload = (e) =>{
         const dataurl = e.target.result;
 
         //post to back
@@ -436,12 +506,11 @@ function post_post(description_txt,file) {
 
         })
         .catch(err => console.log(err));
-
     }
-
-    return true;
-
+        return true;
 }
+
+
 
 
 
