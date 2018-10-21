@@ -400,8 +400,8 @@ function post_post(description_txt,file) {
 //    console.log(file);
 
     //send the post post request to the backend to store the post
-    const photo = helper.uploadImage(file);
-    if(photo === false) return false;  //if upload not successs return false
+    const photo = helper.uploadImage(file); //photo returns the reader of the file
+    if(photo === false) return false;  //if upload format not right return false
     
     //if sucess read the file now can post to the back
     photo.onload = (e) => {
@@ -415,8 +415,6 @@ function post_post(description_txt,file) {
             'src':dataurl.slice(22)
         }
     
-        console.log(payload);
-
         const option = {
             method:'POST',
             headers:{
@@ -430,7 +428,13 @@ function post_post(description_txt,file) {
         //show attach feed to large_feed
         fetch(`http://127.0.0.1:5000/post/`,option)
         .then(res => res.json())
-        .then(r => console.log(r))
+        .then(r =>  {
+            //check the response and see if post to backend success
+            console.log(r)
+            if(r.post_id) return true;
+            if(r.message) return false;
+
+        })
         .catch(err => console.log(err));
 
     }
