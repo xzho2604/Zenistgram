@@ -41,8 +41,6 @@ export function createPostTile(post) {
 
     // reader to create base 64 image
    //add the description section to the end of the image
-    
-
 
     section.appendChild(createElement('h2', post.meta.author, { class: 'post-title' }));
     //post time show underneath the person who posted

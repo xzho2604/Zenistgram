@@ -55,6 +55,8 @@ if(helper.checkStore('user')){
 //========================Functions===============================================
 //render login page
 function render_login() {
+    //tunr on the background
+    document.querySelector('body').classList.add('background')
 
     //clear the original content in large feed
     large_feed.innerHTML ='';
@@ -253,6 +255,9 @@ function validate_user (name, pass) {
 
 //will render home page once the user login
 function render_home() {
+    //tunr on the background
+    document.querySelector('body').classList.remove('background')
+
     //change stauts in the localstorage
     window.localStorage.setItem('status',0);
 
