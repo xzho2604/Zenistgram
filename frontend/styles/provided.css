@@ -241,3 +241,16 @@ hr {
     background-size: 100%;
     background-image: url("/images/ink.jpg");
 }
+
+
+.create_post {
+    font-size: large !important;
+    border-style: hidden !important;
+    font-family: cursive !important;
+
+}
+
+.logout {
+    font-size: large !important;
+    border: none !important;
+}

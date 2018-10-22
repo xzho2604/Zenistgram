@@ -445,6 +445,7 @@ function make_post_btn() {
     //make the post bottun at the top
     const post_btn = helper.createElement('button',null,{id:'post_btn',class:'btn btn-default btn-sm',type:'button'});
     post_btn.innerHTML = 'Create New Post';
+    post_btn.classList.add('create_post');
     header.insertBefore(post_btn,header.children[1]);
 
     //when click on post will show a modal for creating new post
@@ -551,6 +552,7 @@ function make_log_off() {
    //add the log off button to the header
     const log_off = helper.createElement('button',null,{id:'log_off',class:'btn btn-default btn-sm',type:'button'});
     log_off.innerHTML =`<span class="glyphicon glyphicon-log-out"></span> Log out`; 
+    log_off.classList.add('logout');
 
     //append log_off to the header
     header.appendChild(log_off);
