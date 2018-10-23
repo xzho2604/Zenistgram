@@ -43,8 +43,8 @@ window.addEventListener('scroll', () =>{
     var promises = []; 
     let hit_bottom = pageYOffset+window.innerHeight === height + offset_header;
 
-    //if hit the bottom load more posts
-    if(hit_bottom || start === 1 ){
+    //if hit the bottom load more posts on profile pages
+    if((hit_bottom || start === 1 ) && helper.checkStore('status') === '1'){
         console.log(loaded_posts);
         ids.forEach(post_id => {
             const token = helper.checkStore('user');
@@ -77,6 +77,50 @@ window.addEventListener('scroll', () =>{
 
          })
     }
+
+    
+    //if from home page scroll to the bottom of the page load more user feed
+    if((hit_bottom || start === 1 ) && helper.checkStore('status') === '0'){
+        console.log(loaded_posts);
+        //get user's feed from the data base and render as user's home page
+        const token = helper.checkStore('user');
+        const option = {
+            method:'GET',
+            headers:{
+                'accept': 'application/json',
+                'Authorization': 'Token ' + token
+            }
+        };
+
+        fetch(`http://127.0.0.1:5000/user/feed?p=${loaded_posts}&n=${loaded_posts + 5}`,option)
+        .then(res =>res.json())
+        .then(r => {
+            r.posts.forEach(post => {
+                large_feed.appendChild(helper.createPostTile(post));
+                loaded_posts++;
+            })
+            
+            //modol bind likes so that when click like txt will show who likes this post
+            modal_bind_like();
+
+            //bind like when click on the like icon user like this post
+            like_click();
+
+        });
+
+    }    
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
 //add upload file style ref
@@ -340,7 +384,9 @@ function render_home() {
     if(document.querySelector('.astext') === null) make_user_btn();
 
     //show attach feed to large_feed
-    fetch('http://127.0.0.1:5000/user/feed',option)
+     loaded_posts = 5;
+
+    fetch(`http://127.0.0.1:5000/user/feed?p=0&n=5`,option)
     .then(res =>res.json())
     .then(r => {
         r.posts.forEach(post => {
