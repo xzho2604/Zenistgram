@@ -408,16 +408,18 @@ function like_click() {
                 .then(res =>res.json())
                 .then(r => {
                     //check if not liked yet and success on post to the backend
-                    console.log(r.message === 'success' ,liked);
                     if(r.message === 'success' && !liked){
                         const like_text = icon.parentNode.children[1];
-                        console.log(like_text.innerText);
                         const regex = /[0-9]+/g;
                         let match = regex.exec(like_text.innerText);
                         let num = match[0];
-                        console.log(num);
                         num++; 
                         like_text.innerText = `Likes: ${num}`;
+
+                        //append the like_text element data_likes attributes so show like will update lieve
+                        const original_likes = like_text.getAttribute('data_likes')
+                        const new_likes = original_likes === '' ? helper.checkStore('curr_id') : original_likes +`,${helper.checkStore('curr_id')}`;
+                        like_text.setAttribute('data_likes',  new_likes );
 
                     } else { //if there is error alter show message
                         (r.message === 'success')? alert("Has liked Already!") : alert(r.message);     
@@ -583,11 +585,8 @@ function make_post_btn() {
             } else {
                 alert('Please enter description and input a valid png file');
             }
-
         })
-
     })
-
 }
 
 //post post return true if sucess else false
@@ -717,7 +716,6 @@ function make_like_user(user_id) {
     fetch(`http://127.0.0.1:5000/user/?id=${user_id}`,option)
     .then(res => res.json())
     .then(r => {
-//        console.log(r.username)
         //make a user name para graph and add to the modal
         modal_posts.appendChild(helper.createElement('p',r.username));
         modal_posts.appendChild(document.createElement('HR'));
