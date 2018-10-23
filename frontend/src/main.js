@@ -10,6 +10,8 @@ const large_feed = document.getElementById('large-feed');
 const head = document.querySelector('head');
 let user_name = '';
 let  password ='';
+let post_ids= [];
+let loaded_posts = 0;
 
 //insert create modal on to the page
 const header =document.querySelector('.banner'); 
@@ -25,6 +27,57 @@ let modal_posts = document.getElementById('modal_posts');
 const like_css = helper.createElement('link',null,{rel:'stylesheet',href:'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'});
 head.appendChild(like_css);
 
+
+//addd scroll event
+window.addEventListener('scroll', () =>{
+    //defined the offset and when scroll to the bottom of the page load new content
+    const scroll_top = large_feed.scrollTop;
+    const height = large_feed.offsetHeight
+    const offset_header = 149
+    //console.log(pageYOffset+window.innerHeight,height + offset_header);
+
+    //load the next 10 pages
+    let start = 0;
+    loaded_posts === 0 ? start = 1 : start = 0;
+    const ids = post_ids.slice(loaded_posts,loaded_posts+5);
+    var promises = []; 
+    let hit_bottom = pageYOffset+window.innerHeight === height + offset_header;
+
+    //if hit the bottom load more posts
+    if(hit_bottom || start === 1 ){
+        console.log(loaded_posts);
+        ids.forEach(post_id => {
+            const token = helper.checkStore('user');
+            const option = {
+                method:'GET',
+                headers:{
+                    'accept': 'application/json',
+                    'Authorization': 'Token ' + token
+                }
+            };
+            //append promises to the list
+            promises.push(fetch(`http://127.0.0.1:5000/post/?id=${post_id}`,option)
+            .then(res => res.json())
+            .catch(err => console.log(err)));
+
+        })
+
+        //got the post ids
+        Promise.all(promises)
+        .then(posts => {
+            posts.forEach(post => {
+               //wrap the post and put onto large_feed
+               large_feed.appendChild(helper.createPostTile(post));
+               loaded_posts++;
+            })
+            //modol bind likes so that when click like txt will show who likes this post
+            modal_bind_like();
+            //bind like when click on the like icon user like this post
+            like_click();
+
+         })
+    }
+});
 
 //add upload file style ref
 //const choose_file_css = helper.createElement('link',null,{rel:'stylesheet',href:'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'});
@@ -213,10 +266,7 @@ function render_login() {
               })
               .catch(err => console.log(err));
         })
-   
-
     });
-
 }
 
 
@@ -315,30 +365,38 @@ function like_click() {
 
     //bind each like_icon to the even listener
     like_icons.forEach(icon => {
-        icon.addEventListener('click', (e) => {
-            //add like to this post
-            const post_id = e.target.getAttribute('data_post_id');
-            
-            //send the like post to theb backend
-            
-            const token = helper.checkStore('user');
-            const option = {
-                method:'PUT',
-                headers:{
-                    'accept': 'application/json',
-                    'Authorization': 'Token ' + token
-                }
-            };
+
+        //check if icon already added event listener
+        if(icon.getAttribute('like') === null) {
+            icon.addEventListener('click', (e) => {
+                //add like to this post
+                const post_id = e.target.getAttribute('data_post_id');
+                
+                //send the like post to theb backend
+                
+                const token = helper.checkStore('user');
+                const option = {
+                    method:'PUT',
+                    headers:{
+                        'accept': 'application/json',
+                        'Authorization': 'Token ' + token
+                    }
+                };
 
 
-            //show attach feed to large_feed
-            fetch(`http://127.0.0.1:5000/post/like?id=${post_id}`,option)
-            .then(res =>res.json())
-            .then(r => alert(r.message))
-            .catch(err => console.log(err));
- 
-            return;
-        })
+                //show attach feed to large_feed
+                fetch(`http://127.0.0.1:5000/post/like?id=${post_id}`,option)
+                .then(res =>res.json())
+                .then(r => alert(r.message))
+                .catch(err => console.log(err));
+     
+                return;
+            })
+
+            //add the attributes like inicating event listener for like added 
+            icon.setAttribute('like',true);
+
+        }
 
     })
 
@@ -402,7 +460,11 @@ function render_profile() {
     .then(res =>res.json())
     .then(r => {
          //get post from the given post_id
-        r.posts.forEach(post_id => {
+        post_ids = r.posts.reverse();
+        loaded_posts =5;
+
+
+        post_ids.slice(0,5).forEach(post_id => {
             //append promises to the list
             promises.push(fetch(`http://127.0.0.1:5000/post/?id=${post_id}`,option)
             .then(res => res.json())
@@ -422,7 +484,7 @@ function render_profile() {
             //bind like when click on the like icon user like this post
             like_click();
 
-         })
+         }) 
     })
 
     //when click on the loga return to the home page is user is logged in
@@ -579,10 +641,14 @@ function modal_bind_like() {
 
         //click on the button on each like text to open modal
         like_text.forEach(element => {
-            element.addEventListener('click',(e) => {
-                myModal.style.display ="block";
-                display_like(e);
-            })
+            //check if already add event listenr
+            if(element.getAttribute('show_like') === null){
+                element.addEventListener('click',(e) => {
+                    myModal.style.display ="block";
+                    display_like(e);
+                })
+                element.setAttribute('show_like',true);
+            }
         })
 
         //click on the x to close the modal
