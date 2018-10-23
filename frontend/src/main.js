@@ -319,6 +319,19 @@ function validate_user (name, pass) {
 
 //will render home page once the user login
 function render_home() {
+    //get the user id and store in the local storage
+    const token = helper.checkStore('user');
+    const option = {
+        method:'GET',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token
+        }
+    };
+    fetch('http://127.0.0.1:5000/user',option)
+    .then(res =>res.json())
+    .then(r => window.localStorage.setItem('curr_id',r.id));
+
     //tunr on the background
     document.querySelector('body').classList.remove('background')
 
@@ -336,16 +349,6 @@ function render_home() {
 
     //create the log off button
     if(!document.getElementById('log_off')) make_log_off();
-
-    //get user's feed from the data base and render as user's home page
-    const token = helper.checkStore('user');
-    const option = {
-        method:'GET',
-        headers:{
-            'accept': 'application/json',
-            'Authorization': 'Token ' + token
-        }
-    };
 
     //add post button to the top of the page
     if(document.getElementById('post_btn') === null) make_post_btn();
@@ -386,7 +389,10 @@ function like_click() {
             icon.addEventListener('click', (e) => {
                 //add like to this post
                 const post_id = e.target.getAttribute('data_post_id');
-                
+                const user_ids = e.target.getAttribute('user_ids').split(',');
+                const liked = user_ids.includes(helper.checkStore('curr_id'));
+
+
                 //send the like post to theb backend
                 const token = helper.checkStore('user');
                 const option = {
@@ -400,9 +406,26 @@ function like_click() {
                 //show attach feed to large_feed
                 fetch(`http://127.0.0.1:5000/post/like?id=${post_id}`,option)
                 .then(res =>res.json())
-                .then(r => alert(r.message))
+                .then(r => {
+                    //check if not liked yet and success on post to the backend
+                    console.log(r.message === 'success' ,liked);
+                    if(r.message === 'success' && !liked){
+                        const like_text = icon.parentNode.children[1];
+                        console.log(like_text.innerText);
+                        const regex = /[0-9]+/g;
+                        let match = regex.exec(like_text.innerText);
+                        let num = match[0];
+                        console.log(num);
+                        num++; 
+                        like_text.innerText = `Likes: ${num}`;
+
+                    } else { //if there is error alter show message
+                        (r.message === 'success')? alert("Has liked Already!") : alert(r.message);     
+                    } 
+                 })
                 .catch(err => console.log(err));
                 return;
+
             })
             //add the attributes like inicating event listener for like added 
             icon.setAttribute('like',true);
