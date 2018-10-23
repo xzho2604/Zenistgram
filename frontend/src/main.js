@@ -102,35 +102,13 @@ window.addEventListener('scroll', () =>{
             
             //modol bind likes so that when click like txt will show who likes this post
             modal_bind_like();
-
             //bind like when click on the like icon user like this post
             like_click();
-
         });
-
     }    
-
-
-
-
-
-
-
-
-
-
-
-
 });
 
-//add upload file style ref
-//const choose_file_css = helper.createElement('link',null,{rel:'stylesheet',href:'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'});
-//head.appendChild(choose_file_css);
-
-
-
 //depend on user status render different pages
-
 if(helper.checkStore('user')){
     //check the status of the logined in user
     const status = helper.checkStore('status');
@@ -141,13 +119,6 @@ if(helper.checkStore('user')){
 } else {
     render_login();
 }
-
-
-// Potential example to upload an image
-//const input = document.querySelector('input[type="file"]');
-//input.addEventListener('change', helper.uploadImage);
-
-
 
 //========================Functions===============================================
 //render login page
@@ -166,7 +137,6 @@ function render_login() {
     //remove the upload file
     const post_but = document.getElementById('post_btn');
     if(post_but) post_but.remove();
-
 
     //remove the bootstrap css for login page
     let bootstrap = document.getElementById('bootstrap');
@@ -411,7 +381,6 @@ function like_click() {
 
     //bind each like_icon to the even listener
     like_icons.forEach(icon => {
-
         //check if icon already added event listener
         if(icon.getAttribute('like') === null) {
             icon.addEventListener('click', (e) => {
@@ -419,7 +388,6 @@ function like_click() {
                 const post_id = e.target.getAttribute('data_post_id');
                 
                 //send the like post to theb backend
-                
                 const token = helper.checkStore('user');
                 const option = {
                     method:'PUT',
@@ -429,23 +397,17 @@ function like_click() {
                     }
                 };
 
-
                 //show attach feed to large_feed
                 fetch(`http://127.0.0.1:5000/post/like?id=${post_id}`,option)
                 .then(res =>res.json())
                 .then(r => alert(r.message))
                 .catch(err => console.log(err));
-     
                 return;
             })
-
             //add the attributes like inicating event listener for like added 
             icon.setAttribute('like',true);
-
         }
-
     })
-
     return;
 }
 
@@ -538,9 +500,6 @@ function render_profile() {
     logo.addEventListener('click', () => {
         if(helper.checkStore('user') !== null) render_home();
     })
-
-
-
 }
 
 
@@ -706,9 +665,6 @@ function modal_bind_like() {
         }
 }
 
-
-
-
 //to display likes onto the mortal;
 function display_like(e) {
     //show the like user id
@@ -739,14 +695,12 @@ function make_like_user(user_id) {
     .then(res => res.json())
     .then(r => {
 //        console.log(r.username)
-
         //make a user name para graph and add to the modal
         modal_posts.appendChild(helper.createElement('p',r.username));
         modal_posts.appendChild(document.createElement('HR'));
 
      })
     .catch(err => console.log(err));
-
 }
 
 
