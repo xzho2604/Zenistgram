@@ -76,32 +76,32 @@ export function createPostTile(post) {
     section.appendChild(document.createElement('HR'));
 
     //add comments to the post
-    /*
-    <div class="col-sm-5">
-    </div>
-    */
-    post.comments.forEach(c=> {
-        let comment_post = createElement('div',null,{class:'row-sm-5'});
-        comment_post.innerHTML = `
-            <div class="panel panel-default" style="border:none">
-                <div class="panel-heading">
-                    <strong>${c.author}</strong> <span class="text-muted">Published:${new Date(c.published*1000)}</span>
-                </div>
-                <div class="panel-body">
-                   ${c.comment} 
-                </div><!-- /panel-body -->
-            </div><!-- /panel panel-default -->
-        `
-
-        section.appendChild(comment_post);
-    })
-
-
-
-
+    post.comments.forEach(c=> section.appendChild(make_comment(c)))
 
     return section;
 }
+
+
+//take the comment object {author:,comment:,published:} and create a comment dive ready to append to the section of the post
+export function make_comment(c) {
+    let comment_post = createElement('div',null,{class:'row-sm-5'});
+    const time = new Date(c.published*1000);
+
+    comment_post.innerHTML = `
+        <div class="panel panel-default" style="border:none">
+            <div class="panel-heading">
+                <strong>${c.author}</strong> <span class="text-muted" style="font-size:smaller"> <i> ${time.toString().slice(0,24)}</i></span>
+            </div>
+            <div class="panel-body">
+               ${c.comment} 
+            </div><!-- /panel-body -->
+        </div><!-- /panel panel-default -->
+    `
+    return comment_post;
+}
+
+
+
 
 // Given an input element of type=file, grab the data uploaded for use
 export function uploadImage(file) {

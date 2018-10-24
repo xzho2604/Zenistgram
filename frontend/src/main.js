@@ -452,7 +452,6 @@ function make_user_btn() {
         //render user profile page
         render_profile();
     })
-        
     return;
 }
 
@@ -535,7 +534,6 @@ function render_profile() {
 //to make a post button at the top of header
 function make_post_btn() {
     const modal_post = document.getElementById('modal_posts');
-
 
     //make the post bottun at the top
     const post_btn = helper.createElement('button',null,{id:'post_btn',class:'btn btn-default btn-sm',type:'button'});
@@ -730,16 +728,19 @@ function post_comment(comment_btn,comment_text) {
     fetch(`http://127.0.0.1:5000/post/comment?id=${post_id}`,option)
     .then(res => res.json())
     .then(r => {
+        //if suscess posted to the back end 
         console.log(r);
+        if(r.message === 'success') { //update the current post append comment live
+            //get the current section element
+            const section  = comment_btn.parentNode.parentNode;
+            console.log(section);
+            section.appendChild(helper.make_comment(payload));
 
-
-
+        } else {    //else must be some error 
+            alert(r.message);
+        }
      })
-
 }
-
-
-
 
 
 //bind modal with like text so that when click will show likes
@@ -805,8 +806,6 @@ function make_like_user(user_id) {
      })
     .catch(err => console.log(err));
 }
-
-
 
 
 // to creaet a modal frame work to insert elemtn in
