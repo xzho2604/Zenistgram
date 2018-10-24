@@ -63,7 +63,7 @@ export function createPostTile(post) {
 
     //add comment icon to the comment div
     //<i class="fa fa-comment" style="font-size:24px"></i>
-    const comment_btn = createElement('i',null,{class:'fa fa fa-comment',style:'left:3em !important'});
+    const comment_btn = createElement('i',null,{class:'fa fa fa-comment',style:'left:3em !important',data_post_id:post.id});
     comment_div.appendChild(comment_btn);
 
     //create like text and number same for comments

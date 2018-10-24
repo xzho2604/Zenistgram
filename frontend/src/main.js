@@ -368,9 +368,10 @@ function render_home() {
         
         //modol bind likes so that when click like txt will show who likes this post
         modal_bind_like();
-
         //bind like when click on the like icon user like this post
         like_click();
+        //bink the coment button so that when click present user with the modal for input comments
+        modal_bind_comment();
 
     });
 
@@ -516,6 +517,8 @@ function render_profile() {
             modal_bind_like();
             //bind like when click on the like icon user like this post
             like_click();
+            //when click on the comment btn will present user with the modal to input comment
+            modal_bind_comment();
 
          }) 
     })
@@ -591,9 +594,6 @@ function make_post_btn() {
 
 //post post return true if sucess else false
 function post_post(description_txt,file) {
-//    console.log(description_txt);
-//    console.log(file);
-
     //send the post post request to the backend to store the post
     const photo = helper.uploadImage(file); //photo returns the reader of the file
     if(photo === false) return false;  //if upload format not right return false
@@ -625,7 +625,6 @@ function post_post(description_txt,file) {
         .then(res => res.json())
         .then(r =>  {
             //check the response and see if post to backend success
-            console.log(r)
             if(r.post_id) return true;
             if(r.message) return false;
 
@@ -658,6 +657,89 @@ function make_log_off() {
     }) 
     return;
 }
+
+
+
+//bind modal with the comment bton so that when click user can put comments
+function modal_bind_comment() {
+        const comment_btn = document.querySelectorAll('.fa-comment');
+        console.log(comment_btn);
+        //click on the button on each like text to open modal
+        comment_btn.forEach(element => {
+            //check if already add event listenr
+            if(element.getAttribute('comment_listen') === null){
+                element.addEventListener('click',(e) => {
+                    myModal.style.display ="block";
+                    display_comment_box(e);
+                })
+                element.setAttribute('comment_listen',true);
+            }
+        })
+}
+
+function display_comment_box(e) {
+   //add comments and text box with submit btn
+    myModal.style.display = "block";
+    const comment_btn = e.target; 
+    //create the post modal
+    //add the description box
+    const comment_box = helper.createElement('form',null,{id:'comment_form'});
+    comment_box.innerHTML = `
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+            </div>
+    `
+    modal_posts.appendChild(comment_box);
+    
+    //add post_submit button
+    const post_submit = helper.createElement('button','Submit',{type:'button',class:'ubtn btn-primary btn-md'});
+    modal_posts.appendChild(post_submit); 
+
+    //add submit btn click event listener
+    post_submit.addEventListener('click', (e) => {
+        //read value from the comment box
+        const comment_text = document.getElementById('comment').value;
+        (comment_text === '') ? alert('Please enter some comments') : post_comment(comment_btn,comment_text);
+    })
+}
+
+
+//given text comment post comment to the backend
+function post_comment(comment_btn,comment_text) {
+    const post_id = comment_btn.getAttribute('data_post_id');
+    console.log(post_id);
+    const token = helper.checkStore('user');
+    const time = new Date().getTime();
+    const payload = {
+        "author": helper.checkStore('name'),
+        "published": time.toString(),
+        "comment": comment_text 
+        }
+    console.log(payload);
+    
+    const option = {
+        method:'PUT',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token,
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(payload)
+    };
+    fetch(`http://127.0.0.1:5000/post/comment?id=${post_id}`,option)
+    .then(res => res.json())
+    .then(r => {
+        console.log(r);
+
+
+
+     })
+
+}
+
+
+
 
 
 //bind modal with like text so that when click will show likes
