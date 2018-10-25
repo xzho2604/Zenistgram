@@ -45,7 +45,6 @@ window.addEventListener('scroll', () =>{
 
     //if hit the bottom load more posts on profile pages
     if((hit_bottom || start === 1 ) && helper.checkStore('status') === '1'){
-        console.log(loaded_posts);
         ids.forEach(post_id => {
             const token = helper.checkStore('user');
             const option = {
@@ -117,6 +116,7 @@ if(helper.checkStore('user')){
     console.log(status);
     if(status === '0') render_home();
     if(status === '1') render_profile();
+    if(status === '2') render_profile(helper.checkStore('on_profile'));
 
 } else {
     render_login();
@@ -484,7 +484,12 @@ function make_user_btn() {
 //render the profile of the current user page
 function render_profile(user) {
     //change the status of the user now in profile
-    window.localStorage.setItem('status',1);
+    if(user !== undefined) {
+        window.localStorage.setItem('on_profile',user);
+        window.localStorage.setItem('status',2);
+    }else {
+        window.localStorage.setItem('status',1);
+    }
 
     //render all the element in the header if not created
     if(document.getElementById('post_btn') === null) make_post_btn();
@@ -524,7 +529,7 @@ function render_profile(user) {
     fetch(user_url,option)
     .then(res =>res.json())
     .then(r => {
-        console.log(r);
+         //console.log(r);
          //get post from the given post_id
         post_ids = r.posts.reverse();
         loaded_posts =5;
@@ -693,7 +698,7 @@ function make_log_off() {
 //bind modal with the comment bton so that when click user can put comments
 function modal_bind_comment() {
         const comment_btn = document.querySelectorAll('.fa-comment');
-        console.log(comment_btn);
+        //console.log(comment_btn);
         //click on the button on each like text to open modal
         comment_btn.forEach(element => {
             //check if already add event listenr
