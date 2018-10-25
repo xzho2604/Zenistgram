@@ -104,6 +104,8 @@ window.addEventListener('scroll', () =>{
             modal_bind_like();
             //bind like when click on the like icon user like this post
             like_click();
+            //bind the user name on the post tile to render that user's homep page
+            user_click();
         });
     }    
 });
@@ -355,6 +357,9 @@ function render_home() {
 
     //add user name button at the top
     if(document.querySelector('.astext') === null) make_user_btn();
+    //update the user btn name accordingly depend on whos profile page it is 
+    const user_btn = document.getElementById('user_btn').children[0];
+    user_btn.innerText = helper.checkStore('name');
 
     //show attach feed to large_feed
      loaded_posts = 5;
@@ -365,18 +370,38 @@ function render_home() {
         r.posts.forEach(post => {
             large_feed.appendChild(helper.createPostTile(post));
         })
-        
+       
         //modol bind likes so that when click like txt will show who likes this post
         modal_bind_like();
         //bind like when click on the like icon user like this post
         like_click();
         //bink the coment button so that when click present user with the modal for input comments
         modal_bind_comment();
+        //bind the user name on the post tile to render that user's homep page
+        user_click();
 
     });
 
 
 }
+
+
+//when click on the post title of that user, will render that user's profile page
+function user_click() {
+    const user_titles = document.querySelectorAll('.post-title');
+
+    //bind each user_title on each post to the event listener
+    user_titles.forEach(user => {
+        if(user.getAttribute('added') === null) {       //means has not been added the event listener
+            user.addEventListener('click', (e) => {
+                render_profile(user.innerText);         //will listen to the click and render that user page
+            })
+            //add the user atrributes as added 
+            user.setAttribute('added',true);
+        }
+    })
+}
+
 
 
 //bind like when click on the like icon user like this post
@@ -392,7 +417,6 @@ function like_click() {
                 const post_id = e.target.getAttribute('data_post_id');
                 const user_ids = e.target.getAttribute('user_ids').split(',');
                 const liked = user_ids.includes(helper.checkStore('curr_id'));
-
 
                 //send the like post to theb backend
                 const token = helper.checkStore('user');
@@ -440,7 +464,7 @@ function like_click() {
 
 //make user name button at the top when click will render user' profiel page
 function make_user_btn() {
-    const user_btn = helper.createElement('button',null,{class:'astext'});
+    const user_btn = helper.createElement('button',null,{id:'user_btn',class:'astext'});
     const name = helper.checkStore('name');
     user_btn.innerHTML = `
         <b style="font-size:x-large">${name}</b>
@@ -458,14 +482,19 @@ function make_user_btn() {
 
 
 //render the profile of the current user page
-function render_profile() {
+function render_profile(user) {
     //change the status of the user now in profile
     window.localStorage.setItem('status',1);
 
     //render all the element in the header if not created
     if(document.getElementById('post_btn') === null) make_post_btn();
+    
     if(document.querySelector('.astext') === null) make_user_btn();
+    //update the user btn name accordingly depend on whos profile page it is 
+    const user_btn = document.getElementById('user_btn').children[0];
+    user_btn.innerText = (user === undefined) ? helper.checkStore('name') : user;
     ///insert the style reference link from bootstrap
+   
     if(document.getElementById('bootstrap') === null) {
         const bootstrap = helper.createElement('link',null,{id:'bootstrap',href:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',rel:'stylesheet'});
         head.appendChild(bootstrap);
@@ -478,6 +507,10 @@ function render_profile() {
 
     //request the post from the backend
     const token = helper.checkStore('user');
+    
+    //depend on which user to render their profilepage
+    const user_url = user === undefined ? 'http://127.0.0.1:5000/user' :  `http://127.0.0.1:5000/user/?username=${user}`;
+
     const option = {
         method:'GET',
         headers:{
@@ -486,16 +519,15 @@ function render_profile() {
         }
     };
 
-
     //show attach feed to large_feed
     var promises = [];
-    fetch('http://127.0.0.1:5000/user',option)
+    fetch(user_url,option)
     .then(res =>res.json())
     .then(r => {
+        console.log(r);
          //get post from the given post_id
         post_ids = r.posts.reverse();
         loaded_posts =5;
-
 
         post_ids.slice(0,5).forEach(post_id => {
             //append promises to the list

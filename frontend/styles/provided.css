@@ -57,6 +57,7 @@ footer {
     padding: 20px 40px;
     margin: 0;
     border-bottom: 1px solid rgba(0,0,0,.0975);
+    cursor:pointer;
 }
 
 .post-thumb {
@@ -212,6 +213,7 @@ hr {
     color:grey;
     text-align:center;
     margin:auto;
+    cursor:pointer;
 }
 
 .upload-btn-wrapper {
