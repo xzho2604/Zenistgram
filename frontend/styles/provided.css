@@ -54,10 +54,9 @@ footer {
 }
 
 .post-title {
-    padding: 20px 40px;
+    padding: 20px 20px 20px 20px;
     margin: 0;
     border-bottom: 1px solid rgba(0,0,0,.0975);
-    cursor:pointer;
 }
 
 .post-thumb {
@@ -255,4 +254,17 @@ hr {
 .logout {
     font-size: large !important;
     border: none !important;
+}
+
+
+.name_span {
+    cursor:pointer;
+    margin: 0;
+}
+
+.edit_span {
+    padding: 10px;
+    float: right;
+    font-size: initial;
+    cursor:pointer;
 }

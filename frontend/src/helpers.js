@@ -42,7 +42,18 @@ export function createPostTile(post) {
     // reader to create base 64 image
    //add the description section to the end of the image
 
-    section.appendChild(createElement('h2', post.meta.author, { class: 'post-title' }));
+    //create a inner span of user name of the post titile in the header
+    const title = createElement('h2', null, { class: 'post-title' });
+    title.innerHTML = `<span class="name_span">${post.meta.author}</span>`;
+    //add in the edit icon
+    const remove = createElement('span',null,{data_post_id:post.id,class:'glyphicon glyphicon-remove'});
+    const pencil = createElement('span',null,{data_post_id:post.id,class:'glyphicon glyphicon-pencil'});
+    remove.classList.add('edit_span');
+    pencil.classList.add('edit_span');
+    title.appendChild(remove);
+    title.appendChild(pencil);
+    section.appendChild(title);
+
     //post time show underneath the person who posted
 
     section.appendChild(createElement('p', new Date(post.meta.published*1000), { style: 'padding:5px 10px;font-size:9pt;font-style: italic;color:grey;margin:auto'}));

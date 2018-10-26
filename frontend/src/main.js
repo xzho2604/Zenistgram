@@ -73,6 +73,8 @@ window.addEventListener('scroll', () =>{
             modal_bind_like();
             //bind like when click on the like icon user like this post
             like_click();
+            //only bind the edit and delte icon on the post if the page is the login user page
+            if(helper.checkStore('status') === '1') bind_edit();
 
          })
     }
@@ -381,8 +383,6 @@ function render_home() {
         user_click();
 
     });
-
-
 }
 
 
@@ -392,15 +392,63 @@ function user_click() {
 
     //bind each user_title on each post to the event listener
     user_titles.forEach(user => {
-        if(user.getAttribute('added') === null) {       //means has not been added the event listener
-            user.addEventListener('click', (e) => {
-                render_profile(user.innerText);         //will listen to the click and render that user page
+        var name_span = user.children[0];
+        if(name_span.getAttribute('added') === null) {       //means has not been added the event listener
+            name_span.addEventListener('click', (e) => {
+                render_profile(name_span.innerText);         //will listen to the click and render that user page
             })
             //add the user atrributes as added 
-            user.setAttribute('added',true);
+            name_span.setAttribute('added',true);
         }
     })
 }
+
+//bind the delte and edit icon on the post
+function bind_edit() {
+    const edits = document.querySelectorAll('.glyphicon-pencil');
+    const removes = document.querySelectorAll('.glyphicon-remove');
+    
+    //bind delete to delete the post
+    removes.forEach(remove => {
+        if(remove.getAttribute('added') === null) {
+            remove.addEventListener('click', (e) => {
+                let post_id = remove.getAttribute('data_post_id');
+                remove_post(post_id,e);
+            })
+        
+        //make this remove as added event listener
+        remove.setAttribute('added',true);
+        }
+    })
+}
+
+
+//remove the post for the given post id
+function remove_post(post_id,e) {
+
+    const post = e.target.parentNode.parentNode; 
+    const token = helper.checkStore('user');
+    const option = {
+        method:'DELETE',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token
+        }
+    };
+
+    fetch(`http://127.0.0.1:5000/post/?id=${post_id}`,option)
+    .then(res => res.json())
+    .then(r => {
+        if(r.message === 'success') {
+            //delete the post live
+            post.remove();
+        }else {
+            alert(r.message);
+        }
+     })
+}
+
+
 
 
 
@@ -555,6 +603,8 @@ function render_profile(user) {
             like_click();
             //when click on the comment btn will present user with the modal to input comment
             modal_bind_comment();
+            //only bind the edit and delte icon on the post if the page is the login user page
+            if(helper.checkStore('status') === '1') bind_edit();
 
          }) 
     })
@@ -618,6 +668,7 @@ function make_post_btn() {
             if(description_txt !== '' & file !== '') {
                 //check if the upload is valid
                 const result = post_post(description_txt,file);
+                //live update the section if post success
                 result ? alert('Post Sucess!') : alert('Can not Upload Please check');
 
             } else {
