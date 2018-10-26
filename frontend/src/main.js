@@ -667,16 +667,25 @@ function make_post_btn() {
             //check if file and description are both present
             if(description_txt !== '' & file !== '') {
                 //check if the upload is valid
-                const result = post_post(description_txt,file);
                 //live update the section if post success
-                result ? alert('Post Sucess!') : alert('Can not Upload Please check');
-
+                post_post(description_txt,file);
+                close_modal();
             } else {
                 alert('Please enter description and input a valid png file');
             }
         })
     })
 }
+
+//close and reset modal
+function close_modal() {
+    //close the modal after legitmitate submit format
+    myModal.style.display = "none";
+     //reset the modal content to its orignal content
+    modal_posts.innerHTML = '';
+}
+
+
 
 //post post return true if sucess else false
 function post_post(description_txt,file) {
@@ -711,14 +720,47 @@ function post_post(description_txt,file) {
         .then(res => res.json())
         .then(r =>  {
             //check the response and see if post to backend success
-            if(r.post_id) return true;
-            if(r.message) return false;
-
+            if(r.post_id) { //if success posted to the backend live updat the post
+                //get the post from the backend and render the post
+                post_render(r.post_id);
+            }
+            //if not not success then alert the message
+            if(r.message) alert(r.message);
         })
         .catch(err => console.log(err));
     }
         return true;
 }
+
+
+//get post given the post id and the token in local storage will return post object upon success
+function post_render(post_id) {
+    const token = helper.checkStore('user');
+    const option = {
+        method:'GET',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token
+        }
+    };
+
+    fetch(`http://127.0.0.1:5000/post/?id=${post_id}`,option)
+    .then(res => res.json())
+    .then(r => {
+        const section=helper.createPostTile(r);
+        //insert to the very top of all the post
+        large_feed.insertBefore(section,large_feed.children[0]);
+        //modol bind likes so that when click like txt will show who likes this post
+        modal_bind_like();
+        //bind like when click on the like icon user like this post
+        like_click();
+        //when click on the comment btn will present user with the modal to input comment
+        modal_bind_comment();
+        bind_edit(); 
+     })
+    .catch(err => console.log(err));
+}
+
 
 
 //to make log off button on the user homepage
@@ -786,7 +828,12 @@ function display_comment_box(e) {
     post_submit.addEventListener('click', (e) => {
         //read value from the comment box
         const comment_text = document.getElementById('comment').value;
-        (comment_text === '') ? alert('Please enter some comments') : post_comment(comment_btn,comment_text);
+        if(comment_text === '') {
+            alert('Please enter some comments') 
+        } else {
+            post_comment(comment_btn,comment_text);
+            close_modal();
+        } 
     })
 }
 
@@ -851,10 +898,7 @@ function modal_bind_like() {
 
         //click on the x to close the modal
         cross.onclick = function() {
-            myModal.style.display = "none";
-            //reset the modal content to its orignal content
-            modal_posts.innerHTML = '';
-
+            close_modal();
         }
 }
 
