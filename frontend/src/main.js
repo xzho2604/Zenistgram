@@ -383,6 +383,8 @@ function render_home() {
         modal_bind_comment();
         //bind the user name on the post tile to render that user's homep page
         user_click();
+        //bind logo to click and double click event
+        bind_logo()
 
     });
 }
@@ -405,14 +407,6 @@ function user_click() {
     })
 }
 
-//bind the pencil to edit post
-function bind_pencil() {
-
-    
-
-
-
-}
 //bind the delte and edit icon on the post
 function bind_edit() {
     const edits = document.querySelectorAll('.glyphicon-pencil');
@@ -632,12 +626,115 @@ function render_profile(user) {
 
          }) 
     })
+    //bind logo to click and double click event
+    bind_logo()
+    
+}
 
-    //when click on the loga return to the home page is user is logged in
+function bind_logo() {
     const logo = document.getElementById('logo');
-    logo.addEventListener('click', () => {
-        if(helper.checkStore('user') !== null) render_home();
+    if(logo.getAttribute('added') === null) {
+        //set prevent to prevent trigger click if there is a double click
+        var prevent = false;
+        var timer = 0;
+
+        //when click on the loga return to the home page is user is logged in
+        logo.addEventListener('click', () => {
+            timer = setTimeout(() => {
+                if(helper.checkStore('user') !== null && !prevent) render_home();
+                prevent = false;
+            },200)
+        })
+
+        //double click the logo will let user update account info
+        logo.addEventListener('dblclick', () => {
+            clearTimeout(timer);
+            prevent = true;
+
+            //show the modal and upon submit update user account info
+            user_update_modal();
+        })
+        
+        //set added attributes to true now
+        logo.setAttribute('added',true);
+    }
+}
+
+//create and show user update modal
+function user_update_modal() {
+    const modal_post = document.getElementById('modal_posts');
+    myModal.style.display = "block";
+
+    //email input
+    const email = helper.createElement('div',null,{class:'form-group'});
+    email.innerHTML = `
+      <label for="usr">Email:</label>
+      <input type="text" class="form-control" id="email">
+    `
+    modal_post.appendChild(email);
+
+    //name input
+    const name = helper.createElement('div',null,{class:'form-group'});
+    name.innerHTML = `
+      <label for="usr">Name:</label>
+      <input type="text" class="form-control" id="name">
+    `
+    modal_post.appendChild(name);
+
+    //password input
+    const new_password = helper.createElement('div',null,{class:'form-group'});
+    new_password.innerHTML = `
+      <label for="usr">Password:</label>
+      <input type="text" class="form-control" id="password">
+    `
+    modal_post.appendChild(new_password);
+    
+    //add post_submit button
+    const post_submit = helper.createElement('button','Submit',{id:'post_submit',type:'button',class:'ubtn btn-primary btn-md'});
+    modal_post.appendChild(post_submit); 
+    
+
+    //add event listern to the submit button
+    post_submit.addEventListener('click',() => {
+        const email_val = document.getElementById('email').value;
+        const name_val = document.getElementById('name').value;
+        const pass_val = document.getElementById('password').value;
+        console.log(email_val,name_val,pass_val);
+        //check that the pass_val has to be none empty
+        if(pass_val === ''){
+            alert('Password Can not be Empty!');
+        } else {
+            update_user_info(email_val,name_val,pass_val);
+        }
     })
+}
+
+//given updated email_val, name_val, and password update the user info from backend
+function update_user_info(email_val,name_val,pass_val) {
+    const token = helper.checkStore('user');
+    const payload = {
+        'email':email_val,
+        'name':name_val,
+        'password':pass_val
+    }
+
+    const option = {
+        method:'PUT',
+        headers:{
+            'accept': 'application/json',
+            'Authorization': 'Token ' + token,
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify(payload)
+    };
+
+    fetch('http://127.0.0.1:5000/user/',option)
+    .then(res => res.json())
+    .then(r => {
+        //check if the update is successful
+        (r.msg === 'success') ? close_modal() : alert(r.message);
+    })
+    .catch(err => console.log(err));
 }
 
 
