@@ -1,1 +1,210 @@
-13/10/18     18:00   18:15   put the first real entry in diary.txt (delete this line!)
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Fri Oct 26 14:05:53 2018 +1100
+
+    live update create and delete post and on submit of create and comment upon legitimate input will close the modal
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Fri Oct 26 13:23:56 2018 +1100
+
+    Merge branch 'master' of https://gitlab.cse.unsw.edu.au/z5147351/18s2-comp2041-ass2
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Fri Oct 26 13:23:47 2018 +1100
+
+     the live delete of the post working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 25 13:25:19 2018 +1100
+
+    added logo image and function_guide.js
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 25 13:13:35 2018 +1100
+
+    session maintained when on other pppl's profile page when refreshed
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 25 12:49:35 2018 +1100
+
+    can click on the user name on the post and visit other user's profile page
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Wed Oct 24 13:18:52 2018 +1100
+
+    both like and comment live update working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Wed Oct 24 12:24:58 2018 +1100
+
+    comment post working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Tue Oct 23 23:35:01 2018 +1100
+
+    like live update fullly working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Tue Oct 23 23:11:24 2018 +1100
+
+    live update like count , but not on show like
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Tue Oct 23 17:57:47 2018 +1100
+
+    going to change the index.html so that login form is there by default
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Tue Oct 23 17:38:09 2018 +1100
+
+    infinite scroll working both for profile and for homepage
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Tue Oct 23 17:17:05 2018 +1100
+
+    profile infinite scroll working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Mon Oct 22 11:22:37 2018 +1100
+
+    changed the style of the logout and post button
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Mon Oct 22 11:08:49 2018 +1100
+
+    added login background
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sun Oct 21 22:35:55 2018 +1100
+
+    user state will persist and when refresh the page ,page will stay at the orignal state
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sun Oct 21 21:54:45 2018 +1100
+
+    user profile working can switch between home page and user profile
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sun Oct 21 20:28:19 2018 +1100
+
+    the user profile page working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sun Oct 21 16:13:20 2018 +1100
+
+    create post done with index.html changed remved the upload file section
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sun Oct 21 16:03:13 2018 +1100
+
+    user post post working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 18:37:13 2018 +1100
+
+    some format better for comments
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 18:15:08 2018 +1100
+
+    comments are shown for each posts
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 17:05:25 2018 +1100
+
+    like is working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 16:35:21 2018 +1100
+
+    log out bug fixed
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 16:27:17 2018 +1100
+
+    login persist until user log off'
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 16:18:19 2018 +1100
+
+    log in and log out working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 15:28:45 2018 +1100
+
+    the display who like post working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 12:26:10 2018 +1100
+
+    can append user likes in the modal
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 12:04:04 2018 +1100
+
+    fixed like click show likes now work for all like text
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 11:45:21 2018 +1100
+
+    modal fixed need to format and output likes
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 10:05:22 2018 +1100
+
+    Merge branch 'master' of https://gitlab.cse.unsw.edu.au/z5147351/18s2-comp2041-ass2
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Sat Oct 20 10:05:15 2018 +1100
+
+    working on modal and likes added modal temp to the index for testing
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Fri Oct 19 21:30:28 2018 +1100
+
+    the comment and like icon is up
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Fri Oct 19 18:43:12 2018 +1100
+
+    Merge branch 'master' of https://gitlab.cse.unsw.edu.au/z5147351/18s2-comp2041-ass2
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Fri Oct 19 18:42:20 2018 +1100
+
+    user feed is working , level 1 done except the image load sort out the src problem
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Fri Oct 19 00:35:05 2018 +1100
+
+    roll back to the orignal working version sign up and sign in working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 18 22:42:23 2018 +1100
+
+    sign in and sign up working
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 18 22:14:59 2018 +1100
+
+    level 0 complete sign up form compete
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 18 18:15:53 2018 +1100
+
+    comments and like working shwoing numbers and description also shows
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 18 17:20:23 2018 +1100
+
+    log in for working move style to provided.css
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 18 13:51:51 2018 +1100
+
+    the login form completed
+
+Author: Erik Zhou <erikxiangzhou@gmail.com>
+Date:   Thu Oct 18 00:49:49 2018 +1100
+
+    implement the most of the user login form
+

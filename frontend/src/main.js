@@ -105,6 +105,8 @@ window.addEventListener('scroll', () =>{
             modal_bind_like();
             //bind like when click on the like icon user like this post
             like_click();
+            //bink the coment button so that when click present user with the modal for input comments
+            modal_bind_comment();
             //bind the user name on the post tile to render that user's homep page
             user_click();
         });
@@ -403,6 +405,14 @@ function user_click() {
     })
 }
 
+//bind the pencil to edit post
+function bind_pencil() {
+
+    
+
+
+
+}
 //bind the delte and edit icon on the post
 function bind_edit() {
     const edits = document.querySelectorAll('.glyphicon-pencil');
@@ -415,17 +425,31 @@ function bind_edit() {
                 let post_id = remove.getAttribute('data_post_id');
                 remove_post(post_id,e);
             })
-        
         //make this remove as added event listener
         remove.setAttribute('added',true);
+        }
+    })
+
+    //bind the pencil to edit the post open the create post modal
+    edits.forEach(pencil => {
+        if(pencil.getAttribute('added') === null) {
+            pencil.addEventListener('click',(e) => {
+                let post_id = pencil.getAttribute('data_post_id');
+                //show the create post modal and upons submit will create the new post and show live
+                create_post_modal(e,1,post_id);
+
+            })
+        //make this remove as added event listener
+        pencil.setAttribute('added',true);
         }
     })
 }
 
 
+
+
 //remove the post for the given post id
 function remove_post(post_id,e) {
-
     const post = e.target.parentNode.parentNode; 
     const token = helper.checkStore('user');
     const option = {
@@ -620,7 +644,6 @@ function render_profile(user) {
 
 //to make a post button at the top of header
 function make_post_btn() {
-    const modal_post = document.getElementById('modal_posts');
 
     //make the post bottun at the top
     const post_btn = helper.createElement('button',null,{id:'post_btn',class:'btn btn-default btn-sm',type:'button'});
@@ -630,50 +653,7 @@ function make_post_btn() {
 
     //when click on post will show a modal for creating new post
     post_btn.addEventListener('click', () => {
-        myModal.style.display = "block";
-       
-        //create the post modal
-        //add the description box
-        const description_box = helper.createElement('form',null,{id:'post_form'});
-        description_box.innerHTML = `
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea class="form-control" rows="5" id="description"></textarea>
-                </div>
-        `
-        modal_post.appendChild(description_box);
-
-        //add the attach file section
-        const upload_btn = helper.createElement('div',null,{class:'upload-btn-wrapper'});
-        upload_btn.innerHTML = `
-            <button class="btn_upload">Upload a photo</button>
-            <input type="file" name="myfile" />
-        `
-        modal_post.appendChild(upload_btn);
-        
-        //add post_submit button
-        const post_submit = helper.createElement('button','Submit',{type:'button',class:'ubtn btn-primary btn-md'});
-        post_submit.style.float ='right';
-        modal_post.appendChild(post_submit); 
-    
-        //add the event when submit
-        post_submit.addEventListener('click',() => {
-            //read value from the descripton
-            const description_txt = document.getElementById('description').value;
-            //get value from the file input
-            const file_chosen = document.querySelector('input[type="file"]');
-            const [file] = file_chosen.files;
-
-            //check if file and description are both present
-            if(description_txt !== '' & file !== '') {
-                //check if the upload is valid
-                //live update the section if post success
-                post_post(description_txt,file);
-                close_modal();
-            } else {
-                alert('Please enter description and input a valid png file');
-            }
-        })
+        create_post_modal(null,0,null);
     })
 }
 
@@ -685,7 +665,61 @@ function close_modal() {
     modal_posts.innerHTML = '';
 }
 
+//create the create post modal and show
+//bind the submit button to create the new post
+//e is the pencil icon , update = 0 not need to delete post ,but 1 means delte the old post
+function create_post_modal(e,update,post_id) {
+    const modal_post = document.getElementById('modal_posts');
+    myModal.style.display = "block";
+   
+    //create the post modal
+    //add the description box
+    const description_box = helper.createElement('form',null,{id:'post_form'});
+    description_box.innerHTML = `
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" rows="5" id="description"></textarea>
+            </div>
+    `
+    modal_post.appendChild(description_box);
 
+    //add the attach file section
+    const upload_btn = helper.createElement('div',null,{class:'upload-btn-wrapper'});
+    upload_btn.innerHTML = `
+        <button class="btn_upload">Upload a photo</button>
+        <input type="file" name="myfile" />
+    `
+    modal_post.appendChild(upload_btn);
+    
+    //add post_submit button
+    const post_submit = helper.createElement('button','Submit',{id:'post_submit',type:'button',class:'ubtn btn-primary btn-md'});
+    post_submit.style.float ='right';
+    modal_post.appendChild(post_submit); 
+
+    //add the event when submit
+    post_submit.addEventListener('click',() => {
+        //read value from the descripton
+        const description_txt = document.getElementById('description').value;
+        //get value from the file input
+        const file_chosen = document.querySelector('input[type="file"]');
+        const [file] = file_chosen.files;
+
+        //check if file and description are both present
+        if(description_txt !== '' & file !== '') {
+            //check if the upload is valid
+            //live update the section if post success
+            post_post(description_txt,file);
+            close_modal();
+        } else {
+            alert('Please enter description and input a valid png file');
+        }
+        //if update post update == 1 need to remove the post by the id provided
+        if(update === 1) remove_post(post_id,e);
+
+    })
+
+
+}
 
 //post post return true if sucess else false
 function post_post(description_txt,file) {
