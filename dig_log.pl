@@ -29,6 +29,13 @@ Date:   Fri Oct 26 13:23:47 2018 +1100
 
      the live delete of the post working
 
+commit c99b9b331d88220add35199b7e3c2a5ee2fd0b0d
+Merge: dbea0ea 4cdaf08
+Author: Andrew taylor <andrewt@cse.usnw.edu.au>
+Date:   Fri Oct 26 13:09:28 2018 +1100
+
+    updating supplied files
+
 commit dbea0ea8bb44590459a10c4fbd92e158f0e02f3d
 Author: Erik Zhou <erikxiangzhou@gmail.com>
 Date:   Thu Oct 25 13:25:19 2018 +1100
@@ -46,6 +53,18 @@ Author: Erik Zhou <erikxiangzhou@gmail.com>
 Date:   Thu Oct 25 12:49:35 2018 +1100
 
     can click on the user name on the post and visit other user's profile page
+
+commit 4cdaf084c51e01533ce4f0599aeba8e50b30d123
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Thu Oct 25 12:14:03 2018 +1100
+
+    Prevent registering with empty username
+
+commit c093448649c34c2b8adb0ffca27cbe2513bc0099
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Wed Oct 24 15:20:19 2018 +1100
+
+    Regenrate thumbnail when post src is updated
 
 commit 0e933048fbb94084da5c9f78e3158ff30967ba45
 Author: Erik Zhou <erikxiangzhou@gmail.com>
@@ -70,6 +89,12 @@ Author: Erik Zhou <erikxiangzhou@gmail.com>
 Date:   Tue Oct 23 23:11:24 2018 +1100
 
     live update like count , but not on show like
+
+commit 4973e5367840e4d14b1a1d247c44234055b1390c
+Author: costaparas <costaparas@users.noreply.github.com>
+Date:   Tue Oct 23 21:52:24 2018 +1100
+
+    return 400 error for missing uname/passwd in /login endpoint, see piazza @949
 
 commit 331dce2870b213a091c96edb7c9593e466962777
 Author: Erik Zhou <erikxiangzhou@gmail.com>
@@ -204,6 +229,19 @@ Date:   Sat Oct 20 10:05:15 2018 +1100
 
     working on modal and likes added modal temp to the index for testing
 
+commit 34ddbb80979d10cdd7b3bc1bdbd5fa383a7530bc
+Merge: 8404dad eb53927
+Author: Andrew taylor <andrewt@cse.usnw.edu.au>
+Date:   Fri Oct 19 23:07:26 2018 +1100
+
+    updating supplied files
+
+commit eb539275e31cb73edbd1fd98fe1d8b1fa8a27746
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Fri Oct 19 22:36:23 2018 +1100
+
+    Fix DB connections being shared by different threads
+
 commit 8404dadf2d27baa2b417f6f952aa6783905a4c8c
 Author: Erik Zhou <erikxiangzhou@gmail.com>
 Date:   Fri Oct 19 21:30:28 2018 +1100
@@ -222,6 +260,19 @@ Author: Erik Zhou <erikxiangzhou@gmail.com>
 Date:   Fri Oct 19 18:42:20 2018 +1100
 
     user feed is working , level 1 done except the image load sort out the src problem
+
+commit 3986c7dc485e693acfa1b62fbf75f6fa979adb55
+Merge: 78454c5 0fd6351
+Author: Andrew taylor <andrewt@cse.usnw.edu.au>
+Date:   Fri Oct 19 12:52:48 2018 +1100
+
+    updating supplied files
+
+commit 0fd63518bf49c675c564f124f47d201c4fbccd0f
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Fri Oct 19 01:22:52 2018 +1100
+
+    Fix unpack with optional args
 
 commit 78454c5deb5284c8c14cc3eadf7a40af7e144d95
 Author: Erik Zhou <erikxiangzhou@gmail.com>
@@ -264,3 +315,217 @@ Author: Erik Zhou <erikxiangzhou@gmail.com>
 Date:   Thu Oct 18 00:49:49 2018 +1100
 
     implement the most of the user login form
+
+commit efc4f43cb2c9ad047b6dc074db56a9ad06fcce46
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Tue Oct 16 16:14:57 2018 +1100
+
+    Fixed chronological order return for feed being wrong
+
+commit 1778e855518bfd0573a431729038cc902df9dc48
+Merge: 5f77ac5 d34cc96
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Tue Oct 16 12:02:42 2018 +1100
+
+    Merge pull request #2 from COMP2041UNSW/improve-error-messages
+    
+    Improve error messages and de-duplicate code for dummy endpoints
+
+commit d34cc965f1a9c07cce1ce9a30e065bbe3ec97485
+Author: zainafzal08 <zain.afz@gmail.com>
+Date:   Tue Oct 16 12:01:22 2018 +1100
+
+    Added tests
+
+commit dd272b5281cd033012614df5386ade6865551c89
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Tue Oct 16 01:41:07 2018 +1100
+
+    Improve rest of error messages
+
+commit 25f90e748fff46c9dc5f7b784c6b229132f9e70e
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Tue Oct 16 01:04:08 2018 +1100
+
+    Improve user resource error messages
+
+commit 5c7225f0ea2d895db2ace6bd8f3fdb04f363f30e
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Tue Oct 16 00:55:12 2018 +1100
+
+    Improve error message if request did not contain a JSON object
+
+commit e743d29a34b60541bd96d7dc51aa1074af480d5c
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Tue Oct 16 00:52:59 2018 +1100
+
+    Improve error message if JSON object is missing keys
+
+commit 27d5a7c06c8912a4aa6fc46bf0cf7d736115f75f
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Tue Oct 16 00:07:40 2018 +1100
+
+    Update tests for 404 responses
+
+commit 67af80017aa14ac9b628e1fdb0cf890c41fed326
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Tue Oct 16 00:05:03 2018 +1100
+
+    De-duplicate code in dummy resources
+
+commit 5f77ac5c42df7778f99269b9a9a2ab62735e225f
+Merge: 1f77bbc 06079be
+Author: David Sommerich <sommd@users.noreply.github.com>
+Date:   Mon Oct 15 22:59:02 2018 +1100
+
+    Merge pull request #1 from COMP2041UNSW/improve-error-messages
+    
+    Improve error messages
+
+commit 06079bef642b9cdb819eb0e84f6618e077cb2124
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Mon Oct 15 22:56:24 2018 +1100
+
+    Return 404 if post not found instead of 400
+
+commit 5b731032864b8e228813f5d87c7078fee27bc4c2
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Mon Oct 15 17:48:55 2018 +1100
+
+    Return "Post Not Found" if id is 0 instead of "Malformed request"
+
+commit 5581a870024af8665176d4a47e41364dee7db37e
+Author: sommd <d.j.s.1050@gmail.com>
+Date:   Mon Oct 15 17:38:25 2018 +1100
+
+    Improve error messages when post doesn't exist
+
+commit 1f77bbce2263ff2eeafd34c30b6c3fffd6af3df4
+Merge: 68e2d7d f89e3da
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Mon Oct 15 13:13:20 2018 +1100
+
+    Merge branch 'master' of https://github.com/COMP2041UNSW/instacram
+
+commit 68e2d7d4026a64081c5b7f4b27a6c3aa1483fde1
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Mon Oct 15 13:13:10 2018 +1100
+
+    removed possibly problemeatic thing
+
+commit f89e3da7557bf9e943e7cca91d653d32b9d2fa35
+Author: Andrew Taylor <andrewt@unsw.edu.au>
+Date:   Mon Oct 15 13:04:26 2018 +1100
+
+    update backend to give helpful message if necessary modules haven't been installed
+
+commit 09cf99c0a250597dc832da661dee08d472a01262
+Merge: 2f5432f 9ce854f
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Mon Oct 15 12:56:03 2018 +1100
+
+    Merge branch 'master' of https://github.com/COMP2041UNSW/instacram
+
+commit 2f5432f04d236c2ea675b311884d44f5247e8bce
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Mon Oct 15 12:55:52 2018 +1100
+
+    updated package.json
+
+commit 9ce854f0869dcb0f02e7a69baa674fffe3071cb5
+Author: Andrew Taylor <andrewt@unsw.edu.au>
+Date:   Mon Oct 15 10:04:53 2018 +1100
+
+    add requirement for python 3.6+ to description of back end
+
+commit 27bcdfc5f955a890f1d5ff5feecc6e6287a35229
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Sun Oct 14 23:14:59 2018 +1100
+
+    more lingering fixes
+
+commit 9e40ef17a768dfa21fc3a4c7f846711952b8fe30
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Sun Oct 14 23:11:30 2018 +1100
+
+    bug in unfollow
+
+commit 0213980c3abe76d450cc92d4454949842837694a
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Sun Oct 14 20:03:53 2018 +1100
+
+    fixed typo in unfollow
+
+commit 3ee211a30bba68a0eb9b7aa4b10fab75b5aecc14
+Merge: 8d37357 61bf1fe
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Sat Oct 13 19:09:54 2018 +1100
+
+    Merge branch 'master' of https://github.com/COMP2041UNSW/instacram
+
+commit 8d3735706e83fa24a3a975a0111c08c178e53ded
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Sat Oct 13 19:09:34 2018 +1100
+
+    Fixed missing feature to query user by username
+
+commit 61bf1fe27c1e6f40bed584a72ccd5d49b88850e4
+Author: Alex Hinds <alex.hinds141@gmail.com>
+Date:   Sat Oct 13 15:08:55 2018 +1100
+
+    fixed some eslint problems with windows, newer syntax
+
+commit bf34d5b6b67da4d12c1738c1cd60a1529724a6a9
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Sat Oct 13 13:27:20 2018 +1100
+
+    removed accidently added database
+
+commit 950cb7104e25db49318b7db82afeb11ad53b66af
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Sat Oct 13 13:21:13 2018 +1100
+
+    Fixed int->float in dummy.py and updated README to match website spec
+
+commit 9891d6935da1e447d425633ba121f0786f3cab83
+Merge: aac4d74 dcc93f8
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Sat Oct 13 13:01:09 2018 +1100
+
+    Merge branch 'master' of https://github.com/COMP2041UNSW/instacram
+
+commit dcc93f8287cfc72f45feca645a472bd866685c07
+Author: Andrew Taylor <andrewt@unsw.edu.au>
+Date:   Sat Oct 13 12:46:09 2018 +1100
+
+    use float instead of int for sorting tiemstamps in backend/namespaces/user.py
+
+commit b5569b042bbf8099efa6f4957ad0c2182d86437c
+Author: Andrew Taylor <andrewt@unsw.edu.au>
+Date:   Sat Oct 13 12:44:16 2018 +1100
+
+    fix spelling of database name in run.py
+
+commit 2568219a0ce215635a371abb42367f9acf22096b
+Author: Andrew Taylor <andrewt@unsw.edu.au>
+Date:   Sat Oct 13 12:37:45 2018 +1100
+
+    add instructions for running at the backend using 2041 python3.6.3 @CSE
+
+commit 73f3959c772eb0b069a3dfe717d7ca0c54ec371a
+Author: Andrew Taylor <andrewt@unsw.edu.au>
+Date:   Sat Oct 13 10:36:01 2018 +1100
+
+    add code to run.py to download backend database, and fix typo in README.md
+
+commit aac4d74cd3ffab80d226458df4cab7dbd937d771
+Author: Zain Afzal <zain.afz@gmail.com>
+Date:   Fri Oct 12 22:15:59 2018 +1100
+
+    Missing database file
+
+commit 5281136acd48b0af884af87543a1248898b4397b
+Author: Andrew Taylor <andrewt@unsw.edu.au>
+Date:   Fri Oct 12 08:48:48 2018 +1100
+
+    initial release of COMP[29]041 Assignment 2 Instacram code

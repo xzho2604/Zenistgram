@@ -34,7 +34,6 @@ window.addEventListener('scroll', () =>{
     const scroll_top = large_feed.scrollTop;
     const height = large_feed.offsetHeight
     const offset_header = 149
-    //console.log(pageYOffset+window.innerHeight,height + offset_header);
 
     //load the next 10 pages
     let start = 0;
@@ -81,7 +80,7 @@ window.addEventListener('scroll', () =>{
 
     
     //if from home page scroll to the bottom of the page load more user feed
-    if((hit_bottom || start === 1 ) && helper.checkStore('status') === '0'){
+    if((hit_bottom || start === 1 ) ){
         console.log(loaded_posts);
         //get user's feed from the data base and render as user's home page
         const token = helper.checkStore('user');
@@ -129,6 +128,10 @@ if(helper.checkStore('user')){
 //========================Functions===============================================
 //render login page
 function render_login() {
+    //remove the event listener for logo double click
+    const logo = document.getElementById('logo');
+    logo.removeEventListener('click',() => console.log());
+    logo.removeEventListener('dbclick',() => console.log());
     //tunr on the background
     document.querySelector('body').classList.add('background')
 
